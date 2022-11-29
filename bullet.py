@@ -20,7 +20,7 @@ class Bullet:
         self.__image = Image(BULLETIMG[0])
         self.__coords = coords
         self.__spd = spd + spd/vec_len(spd)*BULLET_SPD
-        self.__heatrad = 0 #Об этом договоримся
+        self.__heatrad = self.__image.get_image().get_width() // 2 * SCALE * 1
         self.__is_dead = False
 
     def move(self, scale):
