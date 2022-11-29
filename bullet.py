@@ -3,6 +3,7 @@ from math import *
 import pygame
 from image import *
 from constants import *
+from general import *
 
 
 class Bullet: 
