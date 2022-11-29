@@ -8,7 +8,7 @@ def center_mass_speed(ship1, ship2):
     """mass of each ship is 1"""
     return (ship1.get_spd() + ship2.get_spd()) / 2
 
-def collizion(ships):
+def collision(ships):
     '''calculates collisions between every pair of ships'''
     for i in range(len(ships)):
         for j in range(i + 1, len(ships)):

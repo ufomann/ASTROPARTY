@@ -21,7 +21,7 @@ while not finished:
         i.changespd()
     for i in ships:
         bounce1(i)
-    collizion(ships)
+    collision(ships)
     for i in ships:
         i.move(SCALE)"""
     'TODO'
