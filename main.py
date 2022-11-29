@@ -12,18 +12,21 @@ cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
 clock = pygame.time.Clock()
 finished = False
 
-ships = []
+redship = Ship(np.array([0, 0]), cnst.REDSHIPIMG, cnst.REDSHIPSTR, 0)
+blueship = Ship(np.array([cnst.WIDTH, cnst.HEIGHT]), cnst.BLUESHIPIMG, cnst.BLUESHIPSTR, 180)
+
+ships = [redship, blueship]
 bullets = []
 
 while not finished:
     #movements
-    """for i in ships:
-        i.changespd()
     for i in ships:
-        bounce1(i)
+        i.changespd()
+'''    for i in ships:
+        bounce1(i)'''
     collision(ships)
     for i in ships:
-        i.move(SCALE)"""
+        i.move(cnst.SCALE)
     'TODO'
     #movements
 
@@ -32,6 +35,6 @@ while not finished:
         if event.type == pygame.QUIT:
             finished = True
     pygame.display.update()
-    screen.fill(cnst.BLACK)
+    cnst.screen.fill(cnst.BLACK)
 
 pygame.quit()

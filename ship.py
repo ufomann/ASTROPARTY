@@ -7,46 +7,7 @@ from image import *
 def center_mass_speed(ship1, ship2):
     """mass of each ship is 1"""
     return (ship1.get_spd() + ship2.get_spd()) / 2
-
-def collision(ships):
-    '''calculates collisions between every pair of ships'''
-    for i in range(len(ships)):
-        for j in range(i + 1, len(ships)):
-            if (collisionCheck(ships[i], ships[j])):
-                vcm = center_mass_speed(ships[i], ships[j]) #calculate center mass
-                if (np.dot(ships[i].get_spd() - vcm, radius_vector(ships[i], ships[j])) > 0): #if ships move towards each other
-                    #velocities in frame of reference of center mass
-                    v1cm = ships[i].get_spd() - vcm
-                    v2cm = ships[j].get_spd() - vcm
-                    #getting vectors with len = 1 pointing from ship1 to ship2 and opposite
-                    erv1 = radius_vector(ships[i], ships[j])/vec_len(radius_vector(ships[i], ships[j]))
-                    erv2 = -erv1
-                    #getting speed components (n and t)
-                    v1cmt = np.dot(v1cm, erv1) * erv1
-                    v1cmn = v1cm - v1cmt
-                    v2cmt = np.dot(v2cm, erv2) * erv2
-                    v2cmn = v2cm - v2cmt
-                    vcmt = (v1cmt + v2cmt) / 2
-                    v1 = v1cmn + vcmt + vcm
-                    v2 = v2cmn + vcmt + vcm
-                    touch1 = ships[i].get_walltouch()
-                    touch2 = ships[j].get_walltouch()
-                    #moving through the ship, which touches the wall is prohibited
-                    if (touch1['l'] or touch2['l']):
-                        v1[0] = max(v1[0], 0)
-                        v2[0] = max(v2[0], 0)
-                    if (touch1['u'] or touch2['u']):
-                        v1[1] = max(v1[1], 0)
-                        v2[1] = max(v2[1], 0)
-                    if (touch1['r'] or touch2['r']):
-                        v1[0] = min(v1[0], 0)
-                        v2[0] = min(v2[0], 0)
-                    if (touch1['d'] or touch2['d']):
-                        v1[1] = min(v1[1], 0)
-                        v2[1] = min(v2[1], 0)
-                    ships[i].set_spd(v1)
-                    ships[j].set_spd(v2)
-
+    
 class Steering:
     '''TODO'''
     def __init__(self, buttons):
@@ -72,10 +33,10 @@ class Ship:
    11)__wallTouch - to check if ship touches walls (dict{"l", bool}, {"r", bool}, 
                                                         {"u", bool}, {"d", bool})       type: dict 
     """
-    def __init__(self, coords, paths, steering):
+    def __init__(self, coords, paths, steering, angle):
         self.__paths = paths
         self.__coords = np.array(coords, dtype=float)
-        self.__angle = 0
+        self.__angle = angle
         self.__force = ed_vec(0) * 0
         self.__steer = Steering(steering)
         self.__spd = np.array([0, 0], dtype=float)
@@ -141,3 +102,42 @@ class Ship:
 
     def get_dead(self):
         return self.__dead
+
+def collision(ships):
+    '''calculates collisions between every pair of ships'''
+    for i in range(len(ships)):
+        for j in range(i + 1, len(ships)):
+            if (collisionCheck(ships[i], ships[j])):
+                vcm = center_mass_speed(ships[i], ships[j]) #calculate center mass
+                if (np.dot(ships[i].get_spd() - vcm, radius_vector(ships[i], ships[j])) > 0): #if ships move towards each other
+                    #velocities in frame of reference of center mass
+                    v1cm = ships[i].get_spd() - vcm
+                    v2cm = ships[j].get_spd() - vcm
+                    #getting vectors with len = 1 pointing from ship1 to ship2 and opposite
+                    erv1 = radius_vector(ships[i], ships[j])/vec_len(radius_vector(ships[i], ships[j]))
+                    erv2 = -erv1
+                    #getting speed components (n and t)
+                    v1cmt = np.dot(v1cm, erv1) * erv1
+                    v1cmn = v1cm - v1cmt
+                    v2cmt = np.dot(v2cm, erv2) * erv2
+                    v2cmn = v2cm - v2cmt
+                    vcmt = (v1cmt + v2cmt) / 2
+                    v1 = v1cmn + vcmt + vcm
+                    v2 = v2cmn + vcmt + vcm
+                    touch1 = ships[i].get_walltouch()
+                    touch2 = ships[j].get_walltouch()
+                    #moving through the ship, which touches the wall is prohibited
+                    if (touch1['l'] or touch2['l']):
+                        v1[0] = max(v1[0], 0)
+                        v2[0] = max(v2[0], 0)
+                    if (touch1['u'] or touch2['u']):
+                        v1[1] = max(v1[1], 0)
+                        v2[1] = max(v2[1], 0)
+                    if (touch1['r'] or touch2['r']):
+                        v1[0] = min(v1[0], 0)
+                        v2[0] = min(v2[0], 0)
+                    if (touch1['d'] or touch2['d']):
+                        v1[1] = min(v1[1], 0)
+                        v2[1] = min(v2[1], 0)
+                    ships[i].set_spd(v1)
+                    ships[j].set_spd(v2)
