@@ -16,6 +16,6 @@ def collisionCheck(obj1, obj2):
     '''checks if there is collizion between obj1 and obj2'''
     rad_vec = radius_vector(obj1, obj2)
     dist = vec_len(rad_vec)
-    if (dist > obj1.get_rad() + obj2.get_rad()):
+    if (dist > obj1.get_heatrad() + obj2.get_heatrad()):
         return False
     return True
