@@ -6,6 +6,8 @@ TIME_PERIOD = 1 / FPS
 SCALE = 5
 WIDTH = 1200
 HEIGHT = 800
+screen = None #will be initialized in main
+BLACK = 0x000000
 
 #constants for ship
 REDSHIPIMG = ["graphics/redship1.png", "graphics/redship2.png", "graphics/redship3.png"]
