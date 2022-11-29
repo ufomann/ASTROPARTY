@@ -28,7 +28,14 @@ while not finished:
         i.move(cnst.SCALE)
     for b in bullets:
         b.move(cnst.SCALE)
-    'TODO'
+    for bullet in bullets:
+        bullet.collision_with_ship(ships)
+    for ship in ships:
+        if (ship.get_dead()):
+            ships.remove(ship)
+    for bullet in bullets:
+        if (bullet.get_dead()):
+            bullets.remove(bullet)
     #movements 
 
     clock.tick(cnst.FPS)
