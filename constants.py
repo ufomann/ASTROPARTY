@@ -9,6 +9,7 @@ HEIGHT = 800
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 BLACK = 0x000000
+WHITE = 0xffffff
 
 #constants for ship
 REDSHIPIMG = ["graphics/redship1.png", "graphics/redship2.png", "graphics/redship3.png"]
@@ -21,7 +22,7 @@ FORCE = 500
 OMEGA = 200
 
 #bullet constants
-BULLET_SPD = 300
+BULLET_SPD = 500
 BULLETIMG = ["graphics/bullet.png"]
 
 #barrier constants

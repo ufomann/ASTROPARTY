@@ -46,6 +46,7 @@ class Ship:
         self.__wallTouch = dict(l=False, r=False, u=False, d=False)
         self.__Shield = True
         self.__dead = False
+        self.__nosetaildist = self.__image.get_image().get_height() // 2 * SCALE
 
     def __normSpd(self):
         '''ships can't move faster than MAX_SPD'''
@@ -71,7 +72,7 @@ class Ship:
         self.__image.draw(-self.__angle - 90, self.__coords, scale)
 
     def shoot(self, bullets, scale):
-        bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__image.get_image().get_height() // 2 * scale
+        bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist
         bullets.append(Bullet(bulCoords ,self.get_spd(), self.__angle))
 
     def get_coord(self):
