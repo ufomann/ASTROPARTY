@@ -12,7 +12,7 @@ def collizion(ships):
     '''calculates collisions between every pair of ships'''
     for i in range(len(ships)):
         for j in range(i + 1, len(ships)):
-            if (collizionCheck(ships[i], ships[j])):
+            if (collisionCheck(ships[i], ships[j])):
                 vcm = center_mass_speed(ships[i], ships[j]) #calculate center mass
                 if (np.dot(ships[i].get_spd() - vcm, radius_vector(ships[i], ships[j])) > 0): #if ships move towards each other
                     #velocities in frame of reference of center mass
