@@ -72,7 +72,7 @@ class Ship:
 
     def shoot(self, bullets, scale):
         bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__image.get_image().get_height() // 2 * scale
-        bullets.append(Bullet(bulCoords ,self.get_spd()))
+        bullets.append(Bullet(bulCoords ,self.get_spd(), self.__angle))
 
     def get_coord(self):
         return self.__coords
