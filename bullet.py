@@ -2,7 +2,7 @@ from math import *
 
 import pygame
 from image import *
-from constant import *
+from constants import *
 
 
 class Bullet: 
@@ -48,8 +48,7 @@ class Bullet:
     def collision_with_ship(self, ships):
         """Столкновение пули с кораблем """
         for ship in ships:
-            s_bul_ship = sqrt((self.__coords[0]-ship.get_coord()[0])**2 + (self.__coords[1]-ship.get_coord()[1])**2)
-            if s_bul_ship <= self.__heatrad + ship.get_hitrad():
+            if collisionCheck(ship, self):
                 ship.get_injured()
                 self.__is_dead = True
         
