@@ -26,6 +26,8 @@ while not finished:
     collision(ships)
     for i in ships:
         i.move(cnst.SCALE)
+    for b in bullets:
+        b.move(cnst.SCALE)
     'TODO'
     #movements 
 
@@ -33,10 +35,10 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
-        if event.type == pygame.KEYDOWN
+        if event.type == pygame.KEYDOWN:
             for ship in ships:
                 if event.key == ship.get_steer().shoot:
-                    ship.shoot()
+                    ship.shoot(bullets, cnst.SCALE)
     pygame.display.update()
     cnst.screen.fill(cnst.BLACK)
 pygame.quit()
