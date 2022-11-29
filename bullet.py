@@ -7,7 +7,7 @@ from general import *
 
 
 class Bullet: 
-    def __init__(self, coords, spd):
+    def __init__(self, coords, spd, angle):
         """
         Создание пули. Надо указать координаты стреляющего корабля, его скорость, путь до картинки с пулей, экран для рисования
         Атрибуты:
@@ -19,7 +19,7 @@ class Bullet:
         """
         self.__image = Image(BULLETIMG[0])
         self.__coords = coords
-        self.__spd = spd + spd/vec_len(spd)*BULLET_SPD
+        self.__spd = spd + ed_vec(angle)*BULLET_SPD
         self.__heatrad = self.__image.get_image().get_width() // 2 * SCALE * 1
         self.__is_dead = False
 
