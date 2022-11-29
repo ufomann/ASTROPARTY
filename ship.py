@@ -103,6 +103,9 @@ class Ship:
 
     def get_dead(self):
         return self.__dead
+    
+    def get_steer(self):
+        return self.__steer
 
 def collision(ships):
     '''calculates collisions between every pair of ships'''

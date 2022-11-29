@@ -22,6 +22,6 @@ OMEGA = 200
 
 #bullet constants
 BULLET_SPD = 300
-BULLETIMG = ["bullet.png"]
+BULLETIMG = ["graphics/bullet.png"]
 
 #barrier constants
