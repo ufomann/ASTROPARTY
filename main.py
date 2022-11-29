@@ -3,7 +3,6 @@ from random import *
 import constants as cnst
 from ship import *
 from bullet import*
-from barrier import *
 import numpy as np
 import pygame
 
@@ -22,13 +21,13 @@ while not finished:
     #movements
     for i in ships:
         i.changespd()
-'''    for i in ships:
+    '''for i in ships:
         bounce1(i)'''
     collision(ships)
     for i in ships:
         i.move(cnst.SCALE)
     'TODO'
-    #movements
+    #movements 
 
     clock.tick(cnst.FPS)
     for event in pygame.event.get():
@@ -36,5 +35,4 @@ while not finished:
             finished = True
     pygame.display.update()
     cnst.screen.fill(cnst.BLACK)
-
 pygame.quit()
