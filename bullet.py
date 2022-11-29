@@ -45,10 +45,11 @@ class Bullet:
         """Изменить статус пули """
         self.__is_dead = bool_var
 
-    def collision_with_ship(self, ship):
+    def collision_with_ship(self, ships):
         """Столкновение пули с кораблем """
-        s_bul_ship = sqrt((self.__coords[0]-ship.get_coord()[0])**2 + (self.__coords[1]-ship.get_coord()[1])**2)
-        if s_bul_ship <= self.__heatrad + ship.get_hitrad():
-            ship.get_injured()
-            self.__is_dead = True
+        for ship in ships:
+            s_bul_ship = sqrt((self.__coords[0]-ship.get_coord()[0])**2 + (self.__coords[1]-ship.get_coord()[1])**2)
+            if s_bul_ship <= self.__heatrad + ship.get_hitrad():
+                ship.get_injured()
+                self.__is_dead = True
         
