@@ -6,7 +6,8 @@ TIME_PERIOD = 1 / FPS
 SCALE = 5
 WIDTH = 1200
 HEIGHT = 800
-screen = None #will be initialized in main
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 BLACK = 0x000000
 
 #constants for ship
