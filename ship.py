@@ -3,6 +3,7 @@ import pygame
 from general import *
 from constants import *
 from image import *
+from bullet import *
 
 def center_mass_speed(ship1, ship2):
     """mass of each ship is 1"""
@@ -69,9 +70,9 @@ class Ship:
         self.__heatrad = self.__image.get_image().get_width() // 2 * scale * 1
         self.__image.draw(-self.__angle - 90, self.__coords, scale)
 
-    """def shoot(self):
-        bulcrd = self.get_coord()
-        bullets.append(Bullet())"""
+    def shoot(self, bullets, scale):
+        bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__image.get_image().get_height() // 2 * scale
+        bullets.append(Bullet(bulCoords ,self.get_spd()))
 
     def get_coord(self):
         return self.__coords
