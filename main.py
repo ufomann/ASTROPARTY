@@ -33,6 +33,10 @@ while not finished:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
+        if event.type == pygame.KEYDOWN
+            for ship in ships:
+                if event.key == ship.get_steer().shoot:
+                    ship.shoot()
     pygame.display.update()
     cnst.screen.fill(cnst.BLACK)
 pygame.quit()
