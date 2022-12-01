@@ -8,6 +8,7 @@ WIDTH = 1200
 HEIGHT = 800
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen_position = 2
 BLACK = 0x000000
 WHITE = 0xffffff
 
