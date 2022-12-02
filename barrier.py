@@ -6,9 +6,12 @@ FPS = 60
 TIME_PERIOD = 1 / FPS
 BLACK = 0x000000
 
-SCALE = 5
-WIDTH = 200
-HEIGHT = 200
+# global scaling coefficient
+SCALE = 1
+# intrinsic scaling coefficient, it rescales field from "template" field to working one
+scale_par = 3
+WIDTH = 600
+HEIGHT = 600
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
@@ -36,9 +39,12 @@ def distance(coord1: np.ndarray, coord2: np.ndarray):
 
 
 class Field:
-    def __init__(self, field: list, field_size: list):
+    """TODO"""
+    def __init__(self, field: list, field_size: list, block_size_x: int, block_size_y: int, scale: int):
         self.field = field
         self.size = field_size
+        self.dx = block_size_x * scale
+        self.dy = block_size_y * scale
 
     def __wall_touch(self, coords: np.ndarray, heatrad: float, velocity_x: float, velocity_y: float):
         """Checks touching with walls
@@ -55,19 +61,19 @@ class Field:
         for i in range(self.size[0]):
             for j in range(self.size[1]):
                 if self.field[i][j] != 0:
-                    block_coords = np.array([float(j*20) + 20/2, float(i*20) + 20/2])
-                    if distance(coords, block_coords) < (heatrad + np.sqrt(2) * 20/2):
+                    block_coords = np.array([float(j*self.dx) + self.dx/2, float(i*self.dy) + self.dy/2])
+                    if distance(coords, block_coords) < (heatrad + np.sqrt(self.dx**2 + self.dy**2)):
                         # Touching from upward:
-                        if velocity_y > 0. and 0. < (block_coords[1] - coords[1]) < (20 / 2 + heatrad):
+                        if velocity_y > 0. and 0. < (block_coords[1] - coords[1]) < (self.dy / 2 + heatrad):
                             touch['u'] = True
                         # Touching from downward:
-                        if velocity_y < 0. and 0. < (coords[1] - block_coords[1]) < (20 / 2 + heatrad):
+                        if velocity_y < 0. and 0. < (coords[1] - block_coords[1]) < (self.dy / 2 + heatrad):
                             touch['d'] = True
                         # Touching from the left:
-                        if velocity_x > 0. and 0. < (block_coords[0] - coords[0]) < (20 / 2 + heatrad):
+                        if velocity_x > 0. and 0. < (block_coords[0] - coords[0]) < (self.dx / 2 + heatrad):
                             touch['l'] = True
                         # Touching from the right:
-                        if velocity_x < 0. and 0. < (coords[0] - block_coords[0]) < (20 / 2 + heatrad):
+                        if velocity_x < 0. and 0. < (coords[0] - block_coords[0]) < (self.dx / 2 + heatrad):
                             touch['r'] = True
         return touch
 
@@ -91,7 +97,14 @@ class Image:
         return self.__image
 
 
-def build_walls(field: list, field_size: list, walls: list, path: dict) -> list:
+def build_walls(field: list,
+                field_size: list,
+                walls: list,
+                path: dict,
+                block_size_x: int,
+                block_size_y: int,
+                scale: int) -> list:
+
     """Useing field-map like    1111
                                 1001
                                 1111
@@ -102,14 +115,16 @@ def build_walls(field: list, field_size: list, walls: list, path: dict) -> list:
        2 --> green-blue-green wall
        3 --> orange wall
     """
+    dx = block_size_x * scale
+    dy = block_size_y * scale
     for i in range(field_size[0]):
         for j in range(field_size[1]):
             if field[i][j] == 1:
-                walls.append(Wall([i * 20 + 20/2, j * 20 + 20/2], path['yry']))
+                walls.append(Wall([i * dx + dx/2, j * dy + dy/2], path['yry']))
             if field[i][j] == 2:
-                walls.append(Wall([i * 20 + 20/2, j * 20 + 20/2], path['gbg']))
+                walls.append(Wall([i * dx + dx/2, j * dy + dy/2], path['gbg']))
             if field[i][j] == 3:
-                walls.append(Wall([i * 20 + 20 / 2, j * 20 + 20 / 2], path['o']))
+                walls.append(Wall([i * dx + dx / 2, j * dy + dy / 2], path['o']))
 
 
 class Wall:
@@ -143,18 +158,18 @@ field_type1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                [1, 3, 0, 0, 3, 3, 0, 0, 3, 1],
                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 field_size = [10, 10]
+block_size_x = 20
+block_size_y = 20
 
-field = Field(field_type1, field_size)
+field = Field(field_type1, field_size, block_size_x, block_size_y, scale_par)
 
 walls = []
-build_walls(field_type1, field_size, walls, paths)
-
-print(field.get_wall_touch(np.array([100.0, 90.0]), 30.0, 10.0, 10.0))
+build_walls(field_type1, field_size, walls, paths, block_size_x, block_size_y, scale_par)
 
 while not finished:
     # drawing walls
     for wall in walls:
-        wall.draw(1)
+        wall.draw(SCALE * scale_par)
 
     clock.tick(FPS)
     for event in pygame.event.get():
