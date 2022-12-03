@@ -6,12 +6,16 @@ FPS = 60
 TIME_PERIOD = 1 / FPS
 BLACK = 0x000000
 
+WIDTH = 400
+HEIGHT = 400
+field_size = [10, 10]
+block_size_x = 20
+block_size_y = 20
 # global scaling coefficient
 SCALE = 1
 # intrinsic scaling coefficient, it rescales field from "template" field to working one
-scale_par = 3
-WIDTH = 600
-HEIGHT = 600
+scale_par = WIDTH // (field_size[1] * block_size_x)
+
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
@@ -150,10 +154,10 @@ class Wall:
 field_type1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                [1, 3, 0, 0, 3, 3, 0, 0, 3, 1],
                [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-               [1, 0, 0, 2, 2, 2, 2, 0, 0, 1],
-               [1, 0, 0, 2, 2, 2, 2, 0, 0, 1],
-               [1, 0, 0, 2, 2, 2, 2, 0, 0, 1],
-               [1, 0, 0, 2, 2, 2, 2, 0, 0, 1],
+               [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+               [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+               [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+               [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                [1, 3, 0, 0, 3, 3, 0, 0, 3, 1],
                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
