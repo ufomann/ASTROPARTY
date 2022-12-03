@@ -12,7 +12,7 @@ def game(field_type1):
     clock = pygame.time.Clock()
     finished = False
 
-    redship = Ship(np.array([0, 0]), cnst.REDSHIPIMG, cnst.REDSHIPSTR, 0)
+    redship = Ship(np.array([200, 200]), cnst.REDSHIPIMG, cnst.REDSHIPSTR, 0)
     blueship = Ship(np.array([cnst.WIDTH, cnst.HEIGHT]), cnst.BLUESHIPIMG, cnst.BLUESHIPSTR, 180)
 
     ships = [redship, blueship]
