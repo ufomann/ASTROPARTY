@@ -1,4 +1,5 @@
 import pygame 
+import numpy as np
 
 #general constants
 FPS = 60
@@ -8,7 +9,12 @@ WIDTH = 1200
 HEIGHT = 800
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-screen_position = 2
+screen_position = 2 
+'''screen_position =
+    1 - if it's start screen
+    2 - if it's game screen
+    3 - if it's score screen
+    4 - if it's end screen'''
 BLACK = 0x000000
 WHITE = 0xffffff
 
@@ -37,3 +43,11 @@ MENU_OBJECTSIMG = [
     "graphics/credits_button.png", 
     "graphics/screen_img.png"
     ]
+#score screen constants
+SCORETOWIN = 5
+SCORE = dict(blueship = 0, redship = 0)
+SCORELINEIMG = ['graphics/score_count_line.png']
+BLUECOORDSONSCORELINE = np.array([0, 0])
+REDCOORDSONSCORELINE = np.array([HEIGHT, 0])
+SCORELINESCALE = 4
+TIMEFORMOVE = 1

@@ -19,3 +19,11 @@ def collisionCheck(obj1, obj2):
     if (dist > obj1.get_heatrad() + obj2.get_heatrad()):
         return False
     return True
+
+def arr(a, b):
+    return np.array([a, b])
+
+def signum(a):
+    if a == 0:
+        return a
+    return a / abs(a)

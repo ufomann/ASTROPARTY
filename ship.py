@@ -108,6 +108,9 @@ class Ship:
     def get_steer(self):
         return self.__steer
 
+    def set_coord(self, coord):
+        self.__coords = coord
+
 def collision(ships):
     '''calculates collisions between every pair of ships'''
     for i in range(len(ships)):
