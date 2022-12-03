@@ -8,9 +8,9 @@ def start_menu():
     clock = pygame.time.Clock()
     finished = False
 
-    bg = pygame.image.load("graphics/astro_party_fone.png")
-    title = Title("graphics/screen_img.png", 550, 400)
-    start = Start_button("graphics/start_button.png", "graphics/pr_start_button.png", 570, 600)
+    bg = pygame.image.load(cnst.MENU_OBJECTSIMG[0])
+    title = Title(cnst.MENU_OBJECTSIMG[4], 550, 400)
+    start = Start_button(cnst.MENU_OBJECTSIMG[1], cnst.MENU_OBJECTSIMG[2], 570, 600)
     static_obj = [start]
     dynamic_obj = [title]
     obj_pos = 0

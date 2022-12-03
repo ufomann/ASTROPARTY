@@ -27,3 +27,13 @@ BULLET_SPD = 500
 BULLETIMG = ["graphics/bullet.png"]
 
 #barrier constants
+
+
+#menu constants
+MENU_OBJECTSIMG = [
+    "graphics/astro_party_fone.png", 
+    "graphics/start_button.png", 
+    "graphics/pr_start_button.png",
+    "graphics/credits_button.png", 
+    "graphics/screen_img.png"
+    ]
