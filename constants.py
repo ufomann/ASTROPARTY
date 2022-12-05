@@ -51,3 +51,7 @@ BLUECOORDSONSCORELINE = np.array([0, 0])
 REDCOORDSONSCORELINE = np.array([HEIGHT, 0])
 SCORELINESCALE = 4
 TIMEFORMOVE = 1
+
+#win_screen constants
+WINIMG = ["graphics/red_win.png", "graphics/blue_win.png"]
+FONEIMG = ["graphics/win_fone.png"]
