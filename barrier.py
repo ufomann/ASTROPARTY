@@ -1,23 +1,15 @@
 import numpy as np
 import pygame
+from image import *
+from constants import *
 
 
-FPS = 60
-TIME_PERIOD = 1 / FPS
-BLACK = 0x000000
-
-WIDTH = 400
-HEIGHT = 400
 field_size = [10, 10]
 block_size_x = 20
 block_size_y = 20
-# global scaling coefficient
-SCALE = 1
 # intrinsic scaling coefficient, it rescales field from "template" field to working one
-scale_par = WIDTH // (field_size[1] * block_size_x)
+SCALE = min(WIDTH, HEIGHT) // (field_size[1] * block_size_x)
 
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 finished = False
 
@@ -50,7 +42,7 @@ class Field:
         self.dx = block_size_x * scale
         self.dy = block_size_y * scale
 
-    def __wall_touch(self, coords: np.ndarray, heatrad: float, velocity_x: float, velocity_y: float):
+    def __wall_touch(self, coords: np.ndarray, heatrad: float, velocity: np.ndarray):
         """Checks touching with walls
         returns dictionary with bool value:
         'l' -- touching from left
@@ -61,6 +53,8 @@ class Field:
         Important comment: object can possibly touch many walls, but we don't care if it touches more
         than one wall from each direction.
         """
+        velocity_x = velocity[0]
+        velocity_y = velocity[1]
         touch = {'l': False, 'r': False, 'u': False, 'd': False}
         for i in range(self.size[0]):
             for j in range(self.size[1]):
@@ -81,24 +75,8 @@ class Field:
                             touch['r'] = True
         return touch
 
-    def get_wall_touch(self, coords: np.ndarray, heatrad: float, velocity_x: float, velocity_y: float):
-        return self.__wall_touch(coords, heatrad, velocity_x, velocity_y)
-
-
-class Image:
-    """TODO"""
-
-    def __init__(self, path):
-        self.__image = pygame.image.load(path).convert_alpha()
-        self.__SIZE = np.array([self.__image.get_width(), self.__image.get_height()])
-
-    def draw(self, angle, coords, scale):
-        temp = pygame.transform.scale(self.__image, self.__SIZE * scale)
-        temp = pygame.transform.rotate(temp, angle)
-        screen.blit(temp, (coords[0] - temp.get_width() // 2, coords[1] - temp.get_height() // 2))
-
-    def get_image(self):
-        return self.__image
+    def get_wall_touch(self, coords: np.ndarray, heatrad: float, velocity: np.ndarray):
+        return self.__wall_touch(coords, heatrad, velocity)
 
 
 def build_walls(field: list,
@@ -121,14 +99,23 @@ def build_walls(field: list,
     """
     dx = block_size_x * scale
     dy = block_size_y * scale
+    shift_x = (WIDTH - min(WIDTH, HEIGHT))/2
+    shift_y = (HEIGHT - min(WIDTH, HEIGHT))/2
     for i in range(field_size[0]):
         for j in range(field_size[1]):
+            #crd = [shift_x + i * dx + dx/2, shift_y + j * dy + dy/2]
+            crd = [i * dx + dx/2, j * dy + dy/2]
             if field[i][j] == 1:
-                walls.append(Wall([i * dx + dx/2, j * dy + dy/2], path['yry']))
+                walls.append(Wall(crd, path['yry']))
             if field[i][j] == 2:
-                walls.append(Wall([i * dx + dx/2, j * dy + dy/2], path['gbg']))
+                walls.append(Wall(crd, path['gbg']))
             if field[i][j] == 3:
-                walls.append(Wall([i * dx + dx / 2, j * dy + dy / 2], path['o']))
+                walls.append(Wall(crd, path['o']))
+            if field[i][j] == 9:
+                coords_red = np.array(crd)
+            if field[i][j] == 8:
+                coords_blue = np.array(crd)
+    return coords_red, coords_blue
 
 
 class Wall:
@@ -152,28 +139,22 @@ class Wall:
 
 
 field_type1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-               [1, 3, 0, 0, 3, 3, 0, 0, 3, 1],
+               [1, 0, 0, 0, 3, 3, 0, 0, 3, 1],
+               [1, 0, 9, 0, 0, 0, 0, 0, 0, 1],
                [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-               [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-               [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-               [1, 3, 0, 0, 3, 3, 0, 0, 3, 1],
+               [1, 0, 0, 0, 0, 0, 0, 8, 0, 1],
+               [1, 3, 0, 0, 3, 3, 0, 0, 0, 1],
                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
-field_size = [10, 10]
-block_size_x = 20
-block_size_y = 20
 
-field = Field(field_type1, field_size, block_size_x, block_size_y, scale_par)
 
-walls = []
-build_walls(field_type1, field_size, walls, paths, block_size_x, block_size_y, scale_par)
-
+'''
 while not finished:
     # drawing walls
     for wall in walls:
-        wall.draw(SCALE * scale_par)
+        wall.draw(SCALE)
 
     clock.tick(FPS)
     for event in pygame.event.get():
@@ -183,3 +164,4 @@ while not finished:
     screen.fill(BLACK)
 
 pygame.quit()
+'''
