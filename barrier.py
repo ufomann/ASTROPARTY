@@ -25,7 +25,8 @@ br_wall -- wall that can be broken
 paths = {'yry': 'graphics/yry.png',
          'gbg': 'graphics/gbg.png',
          'o': 'graphics/o.png',
-         'br_wall': 'graphics/breaking_wall.png'}
+         'br_wall': 'graphics/breaking_wall.png',
+         'g_wall': 'graphics/gravitating_wall.png'}
 
 
 def distance(coord1: np.ndarray, coord2: np.ndarray):
@@ -65,12 +66,10 @@ class Field:
         """
         velocity_x = velocity[0]
         velocity_y = velocity[1]
-        touch = {'collision': False,
-                 'l': False, 'r': False, 'u': False, 'd': False,
-                 'br_wall': False, 'br_wall_i': None, 'br_wall_j': None}
+        touch = {'l': False, 'r': False, 'u': False, 'd': False}
         for i in range(self.size[0]):
             for j in range(self.size[1]):
-                if self.field[i][j] != 0 and self.field[i][j] != 9 and self.field[i][j] != 8:
+                if self.field[i][j] != 0 and self.field[i][j] != 9 and self.field[i][j] != 8 and self.field[i][j] != 5:
                     block_coords = np.array([float(j*self.dx) + self.dx/2, float(i*self.dy) + self.dy/2])
                     neighbours = {'l': False, 'r': False, 'u': False, 'd': False}
                     # filling of dict neighbours:
@@ -102,24 +101,36 @@ class Field:
                         # Touching from the right:
                         if velocity_x < 0. and ro_x < 0. and abs(ro_y) <= abs(ro_x) and (not neighbours['r']):
                             touch['r'] = True
-                        if self.field[i][j] == 4 and (touch['u'] or touch['d'] or touch['r'] or touch['l']):
-                            touch['br_wall'] = True
-                            touch['br_wall_i'] = i
-                            touch['br_wall_j'] = j
-                        if touch['u'] or touch['d'] or touch['r'] or touch['l']:
-                            touch['collision'] = True
-                        print(touch)
         return touch
+
+    def bullet_touch(self, bullet, coords: np.ndarray, velosity: np.ndarray):
+        for i in range(self.size[0]):
+            for j in range(self.size[1]):
+                if self.field[i][j] != 0:
+                    block_coords = np.array([float(j * self.dx) + self.dx / 2, float(i * self.dy) + self.dy / 2])
+                    ro_x, ro_y = distance(block_coords, coords)
+                    if (ro_x**2 + ro_y**2 <= 0.5 * self.dx ** 2) and (np.dot(np.array([ro_x, ro_y]), velosity) >= 0):
+                        if self.field[i][j] == 4:
+                            self.field[i][j] = 0
+                        bullet.set_dead(True)
 
     def get_wall_touch(self, coords: np.ndarray, heatrad: float, velocity: np.ndarray):
         return self.__wall_touch(coords, heatrad, velocity)
 
-    def destroy_wall(self, touch: dict):
-        if touch['br_wall']:
-            self.field[touch['br_wall_i']][touch['br_wall_j']] = 0
-
     def get_new_field(self):
         return self.field
+
+    def get_force(self, coords):
+        force = np.array([0, 0], dtype=float)
+        for i in range(self.size[0]):
+            for j in range(self.size[1]):
+                if self.field[i][j] == 5:
+                    block_coords = np.array([float(j*self.dx) + self.dx/2, float(i*self.dy) + self.dy/2])
+                    dist = np.dot(block_coords - coords, block_coords - coords)
+                    force += -g * (block_coords - coords)/dist**2
+        print(force)
+        return force
+
 
 def build_walls(field: list,
                 field_size: list,
@@ -155,6 +166,8 @@ def build_walls(field: list,
                 walls.append(Wall(crd, path['o']))
             if field[i][j] == 4:
                 walls.append(Wall(crd, path['br_wall']))
+            if field[i][j] == 5:
+                walls.append(Wall(crd, path['g_wall']))
             if field[i][j] == 9:
                 coords_red = np.array(crd)
             if field[i][j] == 8:
@@ -184,28 +197,13 @@ class Wall:
 
 field_type1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                [1, 0, 0, 0, 3, 3, 0, 0, 3, 1],
-               [1, 4, 9, 0, 4, 0, 0, 0, 0, 1],
-               [1, 4, 0, 0, 4, 0, 0, 0, 0, 1],
+               [1, 4, 9, 0, 4, 0, 5, 5, 0, 1],
+               [1, 4, 0, 0, 4, 0, 5, 5, 0, 1],
                [1, 0, 0, 0, 4, 0, 0, 0, 0, 1],
                [1, 0, 0, 0, 4, 0, 0, 0, 0, 1],
-               [1, 4, 0, 0, 4, 0, 0, 0, 0, 1],
+               [1, 4, 0, 0, 4, 0, 0, 5, 0, 1],
                [1, 4, 0, 0, 4, 0, 0, 8, 0, 1],
                [1, 3, 0, 0, 3, 3, 0, 0, 0, 1],
                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-
-'''
-while not finished:
-    # drawing walls
-    for wall in walls:
-        wall.draw(SCALE)
-
-    clock.tick(FPS)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            finished = True
-    pygame.display.update()
-    screen.fill(BLACK)
-
-pygame.quit()
-'''
+CURRFIELD = field_type1
