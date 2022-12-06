@@ -31,7 +31,7 @@ paths = {'yry': 'graphics/yry.png',
 
 def distance(coord1: np.ndarray, coord2: np.ndarray):
     """Calculate distance between two objects"""
-    return np.dot(coord1 - coord2, coord1 - coord2)**0.5
+    return coord1[0] - coord2[0], coord1[1] - coord2[1]
 
 
 class Field:
@@ -69,7 +69,7 @@ class Field:
         touch = {'l': False, 'r': False, 'u': False, 'd': False}
         for i in range(self.size[0]):
             for j in range(self.size[1]):
-                if self.field[i][j] != 0:
+                if self.field[i][j] != 0 and self.field[i][j] != 9 and self.field[i][j] != 8:
                     block_coords = np.array([float(j*self.dx) + self.dx/2, float(i*self.dy) + self.dy/2])
                     neighbours = {'l': False, 'r': False, 'u': False, 'd': False}
                     # filling of dict neighbours:
@@ -86,22 +86,20 @@ class Field:
                         if self.field[i+1][j] != 0:
                             neighbours['d'] = True
                     # calculating collisions:
-                    if distance(coords, block_coords) < (heatrad + np.sqrt(self.dx**2 + self.dy**2)):
+                    ro_x, ro_y = distance(block_coords, coords)
+                    R = self.dx / 2 + heatrad
+                    if abs(ro_x) <= R and abs(ro_y) <= R:
                         # Touching from upward:
-                        if velocity_y > 0. and 0. < (block_coords[1] - coords[1]) < (self.dy / 2 + heatrad) \
-                                and (not neighbours['u']):
+                        if velocity_y > 0. and ro_y > 0. and abs(ro_y) >= abs(ro_x) and (not neighbours['u']):
                             touch['u'] = True
                         # Touching from downward:
-                        if velocity_y < 0. and 0. < (coords[1] - block_coords[1]) < (self.dy / 2 + heatrad) \
-                                and (not neighbours['d']):
+                        if velocity_y < 0. and ro_y < 0. and abs(ro_y) >= abs(ro_x) and (not neighbours['d']):
                             touch['d'] = True
                         # Touching from the left:
-                        if velocity_x > 0. and 0. < (block_coords[0] - coords[0]) < (self.dx / 2 + heatrad) \
-                                and (not neighbours['l']):
+                        if velocity_x > 0. and ro_x > 0. and abs(ro_y) <= abs(ro_x) and (not neighbours['l']):
                             touch['l'] = True
                         # Touching from the right:
-                        if velocity_x < 0. and 0. < (coords[0] - block_coords[0]) < (self.dx / 2 + heatrad) \
-                                and (not neighbours['r']):
+                        if velocity_x < 0. and ro_x < 0. and abs(ro_y) <= abs(ro_x) and (not neighbours['r']):
                             touch['r'] = True
         return touch
 
@@ -134,7 +132,7 @@ def build_walls(field: list,
     for i in range(field_size[0]):
         for j in range(field_size[1]):
             #crd = [shift_x + i * dx + dx/2, shift_y + j * dy + dy/2]
-            crd = [i * dx + dx/2, j * dy + dy/2]
+            crd = [j * dx + dx/2, i * dy + dy/2]
             if field[i][j] == 1:
                 walls.append(Wall(crd, path['yry']))
             if field[i][j] == 2:
