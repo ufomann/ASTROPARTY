@@ -1,7 +1,7 @@
 import pygame 
 
 import constants as cnst
-from menu_buttons import *
+from menu_objects import *
 from ship import *
 import general
 
