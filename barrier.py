@@ -1,5 +1,4 @@
 import numpy as np
-import pygame
 from image import *
 from constants import *
 
@@ -43,12 +42,12 @@ class Field:
                  scale: int,
                  width: int,
                  height: int):
-        self.field = field
-        self.size = field_size
-        self.dx = block_size_x * scale
-        self.dy = block_size_y * scale
-        self.shift_x = (width - min(width, height))/2
-        self.shift_y = (height - min(width, height))/2
+        self.__field = field
+        self.__size = field_size
+        self.__dx = block_size_x * scale
+        self.__dy = block_size_y * scale
+        self.__shift_x = (width - min(width, height))/2
+        self.__shift_y = (height - min(width, height))/2
 
     def __wall_touch(self, coords: np.ndarray, heatrad: float, velocity: np.ndarray):
         """Checks touching with walls
@@ -67,27 +66,28 @@ class Field:
         velocity_x = velocity[0]
         velocity_y = velocity[1]
         touch = {'l': False, 'r': False, 'u': False, 'd': False}
-        for i in range(self.size[0]):
-            for j in range(self.size[1]):
-                if self.field[i][j] != 0 and self.field[i][j] != 9 and self.field[i][j] != 8 and self.field[i][j] != 5:
-                    block_coords = np.array([float(j*self.dx) + self.dx/2, float(i*self.dy) + self.dy/2])
+        for i in range(self.__size[0]):
+            for j in range(self.__size[1]):
+                if self.__field[i][j] != 0 and self.__field[i][j] != 9\
+                        and self.__field[i][j] != 8 and self.__field[i][j] != 5:
+                    block_coords = np.array([float(j*self.__dx) + self.__dx/2, float(i*self.__dy) + self.__dy/2])
                     neighbours = {'l': False, 'r': False, 'u': False, 'd': False}
                     # filling of dict neighbours:
                     if (j-1) >= 0:
-                        if self.field[i][j-1] != 0:
+                        if self.__field[i][j-1] != 0:
                             neighbours['l'] = True
-                    if (j+1) < self.size[1]:
-                        if self.field[i][j+1] != 0:
+                    if (j+1) < self.__size[1]:
+                        if self.__field[i][j+1] != 0:
                             neighbours['r'] = True
                     if (i-1) >= 0:
-                        if self.field[i-1][j] != 0:
+                        if self.__field[i-1][j] != 0:
                             neighbours['u'] = True
-                    if (i+1) < self.size[0]:
-                        if self.field[i+1][j] != 0:
+                    if (i+1) < self.__size[0]:
+                        if self.__field[i+1][j] != 0:
                             neighbours['d'] = True
                     # calculating collisions:
                     ro_x, ro_y = distance(block_coords, coords)
-                    R = self.dx / 2 + heatrad
+                    R = self.__dx / 2 + heatrad
                     if abs(ro_x) <= R and abs(ro_y) <= R:
                         # Touching from upward:
                         if velocity_y > 0. and ro_y > 0. and abs(ro_y) >= abs(ro_x) and (not neighbours['u']):
@@ -104,31 +104,32 @@ class Field:
         return touch
 
     def bullet_touch(self, bullet, coords: np.ndarray, velosity: np.ndarray):
-        for i in range(self.size[0]):
-            for j in range(self.size[1]):
-                if self.field[i][j] != 0:
-                    block_coords = np.array([float(j * self.dx) + self.dx / 2, float(i * self.dy) + self.dy / 2])
+        for i in range(self.__size[0]):
+            for j in range(self.__size[1]):
+                if self.__field[i][j] != 0 and self.__field[i][j] != 5 \
+                        and self.__field[i][j] != 9 and self.__field[i][j] != 8:
+                    block_coords = np.array([float(j * self.__dx) + self.__dx / 2,
+                                             float(i * self.__dy) + self.__dy / 2])
                     ro_x, ro_y = distance(block_coords, coords)
-                    if (ro_x**2 + ro_y**2 <= 0.5 * self.dx ** 2) and (np.dot(np.array([ro_x, ro_y]), velosity) >= 0):
-                        if self.field[i][j] == 4:
-                            self.field[i][j] = 0
+                    if (ro_x**2 + ro_y**2 <= 0.5 * self.__dx ** 2) and (np.dot(np.array([ro_x, ro_y]), velosity) >= 0):
+                        if self.__field[i][j] == 4:
+                            self.__field[i][j] = 0
                         bullet.set_dead(True)
 
     def get_wall_touch(self, coords: np.ndarray, heatrad: float, velocity: np.ndarray):
         return self.__wall_touch(coords, heatrad, velocity)
 
     def get_new_field(self):
-        return self.field
+        return self.__field
 
     def get_force(self, coords):
         force = np.array([0, 0], dtype=float)
-        for i in range(self.size[0]):
-            for j in range(self.size[1]):
-                if self.field[i][j] == 5:
-                    block_coords = np.array([float(j*self.dx) + self.dx/2, float(i*self.dy) + self.dy/2])
+        for i in range(self.__size[0]):
+            for j in range(self.__size[1]):
+                if self.__field[i][j] == 5:
+                    block_coords = np.array([float(j*self.__dx) + self.__dx/2, float(i*self.__dy) + self.__dy/2])
                     dist = np.dot(block_coords - coords, block_coords - coords)
                     force += -g * (block_coords - coords)/dist**2
-        print(force)
         return force
 
 
@@ -138,7 +139,7 @@ def build_walls(field: list,
                 path: dict,
                 block_size_x: int,
                 block_size_y: int,
-                scale: int) -> list:
+                scale: int):
 
     """Useing field-map like    1111
                                 1001
