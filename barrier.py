@@ -133,16 +133,18 @@ def build_walls(field: list,
     shift_y = (HEIGHT - min(WIDTH, HEIGHT))/2
     for i in range(field_size[0]):
         for j in range(field_size[1]):
+            #crd = [shift_x + i * dx + dx/2, shift_y + j * dy + dy/2]
+            crd = [i * dx + dx/2, j * dy + dy/2]
             if field[i][j] == 1:
-                walls.append(Wall([shift_x + i * dx + dx/2, shift_y + j * dy + dy/2], path['yry']))
+                walls.append(Wall(crd, path['yry']))
             if field[i][j] == 2:
-                walls.append(Wall([shift_x + i * dx + dx/2, shift_y + j * dy + dy/2], path['gbg']))
+                walls.append(Wall(crd, path['gbg']))
             if field[i][j] == 3:
-                walls.append(Wall([shift_x + i * dx + dx / 2, shift_y + j * dy + dy / 2], path['o']))
+                walls.append(Wall(crd, path['o']))
             if field[i][j] == 9:
-                coords_red = np.array([shift_x + i * dx + dx/2, shift_y + j * dy + dy/2])
+                coords_red = np.array(crd)
             if field[i][j] == 8:
-                coords_blue = np.array([shift_x + i * dx + dx/2, shift_y + j * dy + dy/2])
+                coords_blue = np.array(crd)
     return coords_red, coords_blue
 
 
