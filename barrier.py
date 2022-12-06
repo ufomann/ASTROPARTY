@@ -106,7 +106,8 @@ class Field:
     def bullet_touch(self, bullet, coords: np.ndarray, velosity: np.ndarray):
         for i in range(self.__size[0]):
             for j in range(self.__size[1]):
-                if self.__field[i][j] != 0:
+                if self.__field[i][j] != 0 and self.__field[i][j] != 5 \
+                        and self.__field[i][j] != 9 and self.__field[i][j] != 8:
                     block_coords = np.array([float(j * self.__dx) + self.__dx / 2,
                                              float(i * self.__dy) + self.__dy / 2])
                     ro_x, ro_y = distance(block_coords, coords)
