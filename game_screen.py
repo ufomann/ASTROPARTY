@@ -35,7 +35,6 @@ def game(field_type1):
             i.changespd()
         for ship in ships:
             ship.set_walltouch(field.get_wall_touch(ship.get_coord(), ship.get_heatrad(), ship.get_spd()))
-            print(field.get_wall_touch(ship.get_coord(), ship.get_heatrad(), ship.get_spd()))
         collision(ships)
         for i in ships:
             i.move(cnst.SCALE)
