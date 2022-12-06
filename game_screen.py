@@ -11,12 +11,13 @@ from score_count import *
 
 def game():
     field_type1 = CURRFIELD
+
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
     clock = pygame.time.Clock()
     finished = False
 
-    redship = Ship(np.array([200, 200]), cnst.REDSHIPIMG, cnst.REDSHIPSTR, 0)
-    blueship = Ship(np.array([cnst.WIDTH, cnst.HEIGHT]), cnst.BLUESHIPIMG, cnst.BLUESHIPSTR, 180)
+    redship = Ship(np.array([200, 200]), cnst.REDSHIPIMG, cnst.REDSHIPSTR, 0, 'red')
+    blueship = Ship(np.array([cnst.WIDTH, cnst.HEIGHT]), cnst.BLUESHIPIMG, cnst.BLUESHIPSTR, 180, 'blue')
 
     ships = [redship, blueship]
 
@@ -66,12 +67,11 @@ def game():
                     if event.key == ship.get_steer().shoot:
                         ship.shoot(bullets, cnst.SCALE)
             if len(ships) < 2 and endtime == -1:
-                print('aboba')
                 endtime = pygame.time.get_ticks()
             if endtime != -1 and ((pygame.time.get_ticks() - endtime) > TIME_AFTER_END_OF_THE_ROUND):
                 if len(ships) == 0:
                     score_line(0, 0)
-                elif ships[0].get_steer == cnst.REDSHIPSTR:
+                elif ships[0].get_id() == 'red':
                     score_line(1, 0)
                 else:
                     score_line(0, 1)

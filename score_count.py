@@ -7,6 +7,7 @@ from win_screen import *
 import game_screen as gm
 
 def score_line(rdscore, blscore): 
+    print(rdscore, blscore)
     '''rdscore - red ship's score after round (can be from -1 to 1)
        bluescore - blue ship's score after round (can be from -1 to 1)'''
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
@@ -14,8 +15,8 @@ def score_line(rdscore, blscore):
     finished = False
 
     bg = pygame.image.load(cnst.MENU_OBJECTSIMG[0])
-    blueship = Ship(cnst.BLUECOORDSONSCORELINE, BLUESHIPIMG, BLUESHIPSTR, 0)
-    redship = Ship(cnst.REDCOORDSONSCORELINE, REDSHIPIMG, REDSHIPSTR, 0)
+    blueship = Ship(cnst.BLUECOORDSONSCORELINE, BLUESHIPIMG, BLUESHIPSTR, 0, 'red')
+    redship = Ship(cnst.REDCOORDSONSCORELINE, REDSHIPIMG, REDSHIPSTR, 0, 'blue')
     scoreline = Image(cnst.SCORELINEIMG[0])
     scorelinecoords = arr(WIDTH / 2, HEIGHT / 2)
     width = scoreline.get_image().get_width()
