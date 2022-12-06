@@ -6,7 +6,7 @@ FPS = 60
 TIME_PERIOD = 1 / FPS
 SCALE = 5
 WIDTH = 1200
-HEIGHT = 600
+HEIGHT = 800
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 screen_position = 2 
@@ -32,7 +32,9 @@ BULLET_SPD = 500
 BULLETIMG = ["graphics/bullet.png"]
 
 #barrier constants
-
+field_size = [10, 10]
+block_size_x = 20
+block_size_y = 20
 
 #menu constants
 MENU_OBJECTSIMG = [

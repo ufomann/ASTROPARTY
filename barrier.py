@@ -4,11 +4,11 @@ from image import *
 from constants import *
 
 
-field_size = [10, 10]
-block_size_x = 20
-block_size_y = 20
+#field_size = [10, 10]
+#block_size_x = 20
+#block_size_y = 20
 # intrinsic scaling coefficient, it rescales field from "template" field to working one
-SCALE = min(WIDTH, HEIGHT) // (field_size[1] * block_size_x)
+SCALE = SCALE/5 * min(WIDTH, HEIGHT) // (field_size[1] * block_size_x)
 
 clock = pygame.time.Clock()
 finished = False
@@ -36,11 +36,19 @@ def distance(coord1: np.ndarray, coord2: np.ndarray):
 
 class Field:
     """TODO"""
-    def __init__(self, field: list, field_size: list, block_size_x: int, block_size_y: int, scale: int):
+    def __init__(self, field: list,
+                 field_size: list,
+                 block_size_x: int,
+                 block_size_y: int,
+                 scale: int,
+                 width: int,
+                 height: int):
         self.field = field
         self.size = field_size
         self.dx = block_size_x * scale
         self.dy = block_size_y * scale
+        self.shift_x = (width - min(width, height))/2
+        self.shift_y = (height - min(width, height))/2
 
     def __wall_touch(self, coords: np.ndarray, heatrad: float, velocity: np.ndarray):
         """Checks touching with walls
@@ -50,8 +58,11 @@ class Field:
         'u' -- touching from upward
         'd' -- touching from downward
 
-        Important comment: object can possibly touch many walls, but we don't care if it touches more
+        Important comment:
+        1) object can possibly touch many walls, but we don't care if it touches more
         than one wall from each direction.
+        2) dictionary 'neighbours' provides opportunity to the ship to travel along wall without stopping. It contains
+        information about blocks nearby.
         """
         velocity_x = velocity[0]
         velocity_y = velocity[1]
@@ -60,18 +71,37 @@ class Field:
             for j in range(self.size[1]):
                 if self.field[i][j] != 0:
                     block_coords = np.array([float(j*self.dx) + self.dx/2, float(i*self.dy) + self.dy/2])
+                    neighbours = {'l': False, 'r': False, 'u': False, 'd': False}
+                    # filling of dict neighbours:
+                    if (j-1) >= 0:
+                        if self.field[i][j-1] != 0:
+                            neighbours['l'] = True
+                    if (j+1) < self.size[1]:
+                        if self.field[i][j+1] != 0:
+                            neighbours['r'] = True
+                    if (i-1) >= 0:
+                        if self.field[i-1][j] != 0:
+                            neighbours['u'] = True
+                    if (i+1) < self.size[0]:
+                        if self.field[i+1][j] != 0:
+                            neighbours['d'] = True
+                    # calculating collisions:
                     if distance(coords, block_coords) < (heatrad + np.sqrt(self.dx**2 + self.dy**2)):
                         # Touching from upward:
-                        if velocity_y > 0. and 0. < (block_coords[1] - coords[1]) < (self.dy / 2 + heatrad):
+                        if velocity_y > 0. and 0. < (block_coords[1] - coords[1]) < (self.dy / 2 + heatrad) \
+                                and (not neighbours['u']):
                             touch['u'] = True
                         # Touching from downward:
-                        if velocity_y < 0. and 0. < (coords[1] - block_coords[1]) < (self.dy / 2 + heatrad):
+                        if velocity_y < 0. and 0. < (coords[1] - block_coords[1]) < (self.dy / 2 + heatrad) \
+                                and (not neighbours['d']):
                             touch['d'] = True
                         # Touching from the left:
-                        if velocity_x > 0. and 0. < (block_coords[0] - coords[0]) < (self.dx / 2 + heatrad):
+                        if velocity_x > 0. and 0. < (block_coords[0] - coords[0]) < (self.dx / 2 + heatrad) \
+                                and (not neighbours['l']):
                             touch['l'] = True
                         # Touching from the right:
-                        if velocity_x < 0. and 0. < (coords[0] - block_coords[0]) < (self.dx / 2 + heatrad):
+                        if velocity_x < 0. and 0. < (coords[0] - block_coords[0]) < (self.dx / 2 + heatrad) \
+                                and (not neighbours['r']):
                             touch['r'] = True
         return touch
 

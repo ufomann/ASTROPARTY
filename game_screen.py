@@ -17,10 +17,12 @@ def game(field_type1):
 
     ships = [redship, blueship]
 
-    field = Field(field_type1, field_size, block_size_x, block_size_y, SCALE)
+    field = Field(field_type1, field_size, block_size_x, block_size_y, SCALE, WIDTH, HEIGHT)
 
     walls = []
     coords_red, coords_blue = build_walls(field_type1, field_size, walls, paths, block_size_x, block_size_y, SCALE)
+    redship.set_coord(coords_red)
+    blueship.set_coord(coords_blue)
     bullets = []
 
     while not finished:
