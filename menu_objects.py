@@ -5,6 +5,8 @@ import pygame
 
 from image import *
 import constants as cnst
+from game_screen import *
+from start_screen import *
 
 class Title():
     def __init__(self, path, x, y):
@@ -80,7 +82,7 @@ class Start_button(Button):
 
     def change_screen(self):
         """Поменять экран на game()"""
-        cnst.screen_position = 2
+        game()
     
     def property(self):
         """Основное свойство кнопки"""
@@ -92,8 +94,8 @@ class Back_to_menu_button(Button):
         super().__init__(path, path_pr, x, y, scale)
 
     def change_screen(self):
-        """Поменять экран на game()"""
-        cnst.screen_position = 1
+        """Поменять экран на menu"""
+        start_menu()
 
     def property(self):
         self.change_screen()

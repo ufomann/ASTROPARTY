@@ -26,13 +26,14 @@ class Ship:
     3)__coords - coordinates of the ship (default coordinate system)                    type: numpy.array
     4)__angle - angle between 0x and ships direction (positive direction - clockwise)   type: float
     5)__spd - velocity of the ship                                                      type: numpy.array
-    6)__force - force vector                                                            type: numpy.array
+    6)__force - engine force vector                                                     type: numpy.array
     7)__steer - steering buttons (check class Steering description)                     type: class Steering   
     8)__image - ship's image (check class Image description)                            type: calss Image
     9)__heatrad - ship's heatbox is circle and this is it's radius                      type: float
    10)__screen - this is for drawing ship                                               type: pygame.display
    11)__wallTouch - to check if ship touches walls (dict{"l", bool}, {"r", bool}, 
                                                         {"u", bool}, {"d", bool})       type: dict 
+   12)__extForce - external force vector (for example anti black holes can push you)    type: numpy.array
     """
     def __init__(self, coords, paths, steering, angle):
         self.__paths = paths
@@ -47,6 +48,7 @@ class Ship:
         self.__Shield = True
         self.__dead = False
         self.__nosetaildist = self.__image.get_image().get_height() // 2 * SCALE
+        self.__extForce = np.array([0, 0], dtype=float)
 
     def __normSpd(self):
         '''ships can't move faster than MAX_SPD'''
@@ -62,7 +64,7 @@ class Ship:
         if keystatus[self.__steer.clockwise]:
             #increase angle if player spinning clockwise
             self.__angle += OMEGA * TIME_PERIOD
-        self.__force = ed_vec(self.__angle) * FORCE
+        self.__force = ed_vec(self.__angle) * FORCE + self.__extForce
         self.__spd += self.__force * TIME_PERIOD
         self.__normSpd()
 
@@ -110,6 +112,9 @@ class Ship:
 
     def set_coord(self, coord):
         self.__coords = coord
+    
+    def set_extForce(self, extForce):
+        self.__extForce = extForce
 
 def collision(ships):
     for ship in ships:

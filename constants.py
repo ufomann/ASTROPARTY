@@ -9,7 +9,6 @@ WIDTH = 1200
 HEIGHT = 800
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-screen_position = 1
 '''screen_position =
     1 - if it's start screen
     2 - if it's game screen
@@ -32,7 +31,7 @@ BULLET_SPD = 500
 BULLETIMG = ["graphics/bullet.png"]
 
 #barrier constants
-g = 1
+g = 1000000000.
 field_size = [10, 10]
 block_size_x = 20
 block_size_y = 20

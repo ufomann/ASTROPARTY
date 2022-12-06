@@ -1,5 +1,4 @@
 import numpy as np
-import pygame
 from image import *
 from constants import *
 
@@ -123,13 +122,13 @@ class Field:
         return self.__field
 
     def get_force(self, coords):
-        force = np.array([0, 0])
+        force = np.array([0, 0], dtype=float)
         for i in range(self.__size[0]):
             for j in range(self.__size[1]):
                 if self.__field[i][j] == 5:
                     block_coords = np.array([float(j*self.__dx) + self.__dx/2, float(i*self.__dy) + self.__dy/2])
                     dist = np.dot(block_coords - coords, block_coords - coords)
-                    force += -g * (block_coords - coords)/dist**3
+                    force += -g * (block_coords - coords)/dist**2
         return force
 
 
@@ -139,7 +138,7 @@ def build_walls(field: list,
                 path: dict,
                 block_size_x: int,
                 block_size_y: int,
-                scale: int) -> list:
+                scale: int):
 
     """Useing field-map like    1111
                                 1001
@@ -206,3 +205,5 @@ field_type1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                [1, 4, 0, 0, 4, 0, 0, 8, 0, 1],
                [1, 3, 0, 0, 3, 3, 0, 0, 0, 1],
                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+
+CURRFIELD = field_type1
