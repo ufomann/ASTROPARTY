@@ -4,8 +4,7 @@ from math import *
 import pygame
 
 from image import *
-import constants as cnst
-from game_screen import *
+import game_screen as gs
 from start_screen import *
 
 class Title():
@@ -82,7 +81,7 @@ class Start_button(Button):
 
     def change_screen(self):
         """Поменять экран на game()"""
-        game()
+        gs.game()
     
     def property(self):
         """Основное свойство кнопки"""

@@ -3,7 +3,8 @@ import pygame
 import constants as cnst
 from menu_objects import *
 from ship import *
-import general
+from win_screen import *
+import game_screen as gm
 
 def score_line(rdscore, blscore): 
     '''rdscore - red ship's score after round (can be from -1 to 1)
@@ -50,13 +51,13 @@ def score_line(rdscore, blscore):
     pygame.time.delay(1000)
     
     if (SCORE['redship'] == SCORETOWIN and SCORE['blueship'] == SCORETOWIN):
-        return 'both'
+        win_screen(2)
     elif (SCORE['blueship'] == SCORETOWIN):
-        return 'blue'
+        win_screen(1)
     elif (SCORE['redship'] == SCORETOWIN):
-        return 'red'
+        win_screen(0)
     else:
-        return 'none'
+        gm.game()
 '''for testing'''
 '''print(score_line(-1, -1))
 print(score_line(1, -1))

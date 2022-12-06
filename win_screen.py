@@ -35,11 +35,8 @@ def win_screen(which_ship):
         clock.tick(cnst.FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                finished = True
-                cnst.screen_position = 0
+                exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 check_button([button_to_menu], event)
-        if cnst.screen_position != 4:
-            finished = True
         pygame.display.update()
     
