@@ -9,7 +9,6 @@ WIDTH = 1200
 HEIGHT = 800
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-screen_position = 1
 '''screen_position =
     1 - if it's start screen
     2 - if it's game screen

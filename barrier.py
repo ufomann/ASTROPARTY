@@ -193,7 +193,7 @@ field_type1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                [1, 3, 0, 0, 3, 3, 0, 0, 0, 1],
                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
-
+CURRFIELD = field_type1
 '''
 while not finished:
     # drawing walls

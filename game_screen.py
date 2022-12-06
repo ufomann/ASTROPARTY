@@ -6,8 +6,10 @@ from bullet import*
 import numpy as np
 import pygame
 from barrier import *
+from constants import *
 
-def game(field_type1):
+def game():
+    field_type1 = CURRFIELD
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
     clock = pygame.time.Clock()
     finished = False
@@ -32,8 +34,9 @@ def game(field_type1):
         for wall in walls:
             wall.draw(SCALE)
         # movements
-        for i in ships:
-            i.changespd()
+        for ship in ships:
+            ship.set_extForce(field.get_force(ship.get_coord()))
+            ship.changespd()
         for ship in ships:
             ship.set_walltouch(field.get_wall_touch(ship.get_coord(), ship.get_heatrad(), ship.get_spd()))
         collision(ships)
@@ -57,8 +60,7 @@ def game(field_type1):
         clock.tick(cnst.FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                finished = True
-                cnst.screen_position = 0
+                exit()
             if event.type == pygame.KEYDOWN:
                 for ship in ships:
                     if event.key == ship.get_steer().shoot:
