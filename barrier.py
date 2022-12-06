@@ -121,13 +121,14 @@ class Field:
         return self.field
 
     def get_force(self, coords):
-        force = np.array([0, 0])
+        force = np.array([0, 0], dtype=float)
         for i in range(self.size[0]):
             for j in range(self.size[1]):
                 if self.field[i][j] == 5:
                     block_coords = np.array([float(j*self.dx) + self.dx/2, float(i*self.dy) + self.dy/2])
                     dist = np.dot(block_coords - coords, block_coords - coords)
-                    force += -g * (block_coords - coords)/dist**3
+                    force += -g * (block_coords - coords)/dist**2
+        print(force)
         return force
 
 
