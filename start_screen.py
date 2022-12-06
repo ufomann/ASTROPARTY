@@ -9,8 +9,8 @@ def start_menu():
     finished = False
 
     bg = pygame.image.load(cnst.MENU_OBJECTSIMG[0])
-    title = Title(cnst.MENU_OBJECTSIMG[4], 550, 400)
-    start = Start_button(cnst.MENU_OBJECTSIMG[1], cnst.MENU_OBJECTSIMG[2], 570, 600)
+    title = Title(cnst.MENU_OBJECTSIMG[4], cnst.WIDTH/24*11, cnst.HEIGHT/2)
+    start = Start_button(cnst.MENU_OBJECTSIMG[1], cnst.MENU_OBJECTSIMG[2], cnst.WIDTH/2, cnst.HEIGHT/4*3)
     static_obj = [start]
     dynamic_obj = [title]
     obj_pos = 0
