@@ -1,7 +1,7 @@
 import pygame 
 
 import constants as cnst
-from menu_buttons import *
+from menu_objects import *
 
 def start_menu():
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
@@ -30,7 +30,7 @@ def start_menu():
                 cnst.screen_position = 0
             if event.type == pygame.MOUSEBUTTONDOWN:
                 check_button(static_obj, event)
-        if cnst.screen_position != 2:
+        if cnst.screen_position != 1:
             finished = True
         pygame.display.update()
     

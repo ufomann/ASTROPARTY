@@ -9,7 +9,7 @@ WIDTH = 1200
 HEIGHT = 600
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-screen_position = 2 
+screen_position = 4
 '''screen_position =
     1 - if it's start screen
     2 - if it's game screen
@@ -42,6 +42,7 @@ MENU_OBJECTSIMG = [
     "graphics/credits_button.png", 
     "graphics/screen_img.png"
     ]
+
 #score screen constants
 SCORETOWIN = 5
 SCORE = dict(blueship = 0, redship = 0)
@@ -53,4 +54,5 @@ TIMEFORMOVE = 1
 
 #win_screen constants
 WINIMG = ["graphics/red_win.png", "graphics/blue_win.png"]
+MENU_BUTTON_IMG = ["graphics/menu_button.png", "graphics/pr_menu_button.png"]
 FONEIMG = ["graphics/win_fone.png"]

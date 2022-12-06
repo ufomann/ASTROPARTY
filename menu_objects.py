@@ -23,7 +23,7 @@ class Title():
 
 
 class Button():
-    def __init__(self, path, path_pr, x, y):
+    def __init__(self, path, path_pr, x, y, scale = 1.2):
         """Создание объекта кнопки
         Атрибуты:
         __image - объект класса Image, картинка
@@ -32,16 +32,17 @@ class Button():
         self.__image = Image(path)
         self.__image_pr = Image(path_pr)
         self.__coord = np.array([x, y])
+        self.__scale = scale
 
     def check_click(self, event):
         """Проверка нажатия на кнопку, возвращает bool"""
         x_click = event.pos[0]
         y_click = event.pos[1]
 
-        left_side = self.__coord[0] - self.__image.get_image().get_width()//2
-        right_side = self.__coord[0] + self.__image.get_image().get_width()//2
-        top_side = self.__coord[1] - self.__image.get_image().get_height()//2
-        down_side = self.__coord[1] + self.__image.get_image().get_height()//2
+        left_side = self.__coord[0] - self.__scale*self.__image.get_image().get_width()//2
+        right_side = self.__coord[0] + self.__scale*self.__image.get_image().get_width()//2
+        top_side = self.__coord[1] - self.__scale*self.__image.get_image().get_height()//2
+        down_side = self.__coord[1] + self.__scale*self.__image.get_image().get_height()//2
 
         if (right_side > x_click > left_side) and (down_side > y_click > top_side):
             return True
@@ -53,22 +54,22 @@ class Button():
         x_click = pygame.mouse.get_pos()[0]
         y_click = pygame.mouse.get_pos()[1]
 
-        left_side = self.__coord[0] - self.__image.get_image().get_width()//2
-        right_side = self.__coord[0] + self.__image.get_image().get_width()//2
-        top_side = self.__coord[1] - self.__image.get_image().get_height()//2
-        down_side = self.__coord[1] + self.__image.get_image().get_height()//2
+        left_side = self.__coord[0] - self.__scale*self.__image.get_image().get_width()//2
+        right_side = self.__coord[0] + self.__scale*self.__image.get_image().get_width()//2
+        top_side = self.__coord[1] - self.__scale*self.__image.get_image().get_height()//2
+        down_side = self.__coord[1] + self.__scale*self.__image.get_image().get_height()//2
 
         if (right_side > x_click > left_side) and (down_side > y_click > top_side):
             return True
         else:
             return False
 
-    def draw(self, scale = 1.2):
+    def draw(self):
         """Нарисовать кнопку"""
         if self.check_pos():
-            self.__image_pr.draw(0, self.__coord, scale)
+            self.__image_pr.draw(0, self.__coord, self.__scale)
         else:
-            self.__image.draw(0, self.__coord, scale)
+            self.__image.draw(0, self.__coord, self.__scale)
 
 
 
@@ -79,13 +80,23 @@ class Start_button(Button):
 
     def change_screen(self):
         """Поменять экран на game()"""
-        cnst.screen_position = 1
+        cnst.screen_position = 2
     
     def property(self):
         """Основное свойство кнопки"""
         self.change_screen()
 
+class Back_to_menu_button(Button):
+    """Класс кнопки возвращения к главному меню"""
+    def __init__(self, path, path_pr, x, y, scale=1.2):
+        super().__init__(path, path_pr, x, y, scale)
 
+    def change_screen(self):
+        """Поменять экран на game()"""
+        cnst.screen_position = 1
+
+    def property(self):
+        self.change_screen()
 
 def check_button(buttons, event):
     """Проверяет, нажали ли на кнопку. Если какая-либо из кнопок нажата, вызывает ее основной метод"""
