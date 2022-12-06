@@ -43,9 +43,7 @@ def game(field_type1):
             b.move(cnst.SCALE)
         for bullet in bullets:
             bullet.collision_with_ship(ships)
-            field.destroy_wall(field.get_wall_touch(bullet.get_coord(), bullet.get_heatrad(), bullet.get_spd()))
-            if field.get_wall_touch(bullet.get_coord(), bullet.get_heatrad(), bullet.get_spd())['collision']:
-                bullet.set_dead(True)
+            field.bullet_touch(bullet, bullet.get_coord(), bullet.get_spd())
         for ship in ships:
             if (ship.get_dead()):
                 ships.remove(ship)
