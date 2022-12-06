@@ -34,6 +34,10 @@ class Bullet:
         """Получить координаты пули """
         return self.__coords
 
+    def get_spd(self):
+        """Получить скорость пули"""
+        return self.__spd
+
     def get_heatrad(self):
         """Получить 'радиус видимости' пули  """
         return self.__heatrad

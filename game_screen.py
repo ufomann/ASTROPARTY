@@ -27,9 +27,10 @@ def game(field_type1):
 
     while not finished:
         # drawing walls
+        walls = []
+        build_walls(field.get_new_field(), field_size, walls, paths, block_size_x, block_size_y, SCALE)
         for wall in walls:
             wall.draw(SCALE)
-
         # movements
         for i in ships:
             i.changespd()
@@ -42,6 +43,9 @@ def game(field_type1):
             b.move(cnst.SCALE)
         for bullet in bullets:
             bullet.collision_with_ship(ships)
+            field.destroy_wall(field.get_wall_touch(bullet.get_coord(), bullet.get_heatrad(), bullet.get_spd()))
+            if field.get_wall_touch(bullet.get_coord(), bullet.get_heatrad(), bullet.get_spd())['collision']:
+                bullet.set_dead(True)
         for ship in ships:
             if (ship.get_dead()):
                 ships.remove(ship)
