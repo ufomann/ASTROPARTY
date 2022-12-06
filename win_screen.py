@@ -14,7 +14,7 @@ def win_screen(which_ship):
     finished = False
 
     bg = pygame.image.load(cnst.FONEIMG[0])
-    title = Title(cnst.WINIMG[which_ship],550, 200)
+    title = Title(cnst.WINIMG[which_ship],cnst.WIDTH/24*11, cnst.HEIGHT/4)
     button_to_menu = Back_to_menu_button(cnst.MENU_BUTTON_IMG[0], cnst.MENU_BUTTON_IMG[1], 100, 50, 0.5)
     if which_ship == 0:
         ship_image = Image(cnst.REDSHIPIMG[0])
@@ -26,7 +26,7 @@ def win_screen(which_ship):
     while not finished:
         cnst.screen.blit(bg,(0,0))
 
-        ship_image.draw(angle, [550, 400], cnst.SCALE)
+        ship_image.draw(angle, [cnst.WIDTH/24*11, cnst.HEIGHT/2], cnst.SCALE)
         title.draw()
         button_to_menu.draw()
 
