@@ -146,16 +146,16 @@ def collision(ships):
                     touch1 = ships[i].get_walltouch()
                     touch2 = ships[j].get_walltouch()
                     #moving through the ship, which touches the wall is prohibited
-                    if (touch1['r'] or touch2['r']):
+                    if (touch1['r'] or touch2['l']):
                         v1[0] = max(v1[0], 0)
                         v2[0] = max(v2[0], 0)
-                    if (touch1['d'] or touch2['d']):
+                    if (touch1['d'] or touch2['u']):
                         v1[1] = max(v1[1], 0)
                         v2[1] = max(v2[1], 0)
-                    if (touch1['l'] or touch2['l']):
+                    if (touch1['l'] or touch2['r']):
                         v1[0] = min(v1[0], 0)
                         v2[0] = min(v2[0], 0)
-                    if (touch1['u'] or touch2['u']):
+                    if (touch1['u'] or touch2['d']):
                         v1[1] = min(v1[1], 0)
                         v2[1] = min(v2[1], 0)
                     ships[i].set_spd(v1)

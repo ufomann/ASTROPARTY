@@ -12,7 +12,7 @@ while not execution_finished:
     elif cnst.screen_position == 2:
         game(field_type1)
     elif cnst.screen_position == 4:
-        win_screen(0)
+        win_screen(1)
     else:
         execution_finished = True
 pygame.quit()
