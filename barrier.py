@@ -90,16 +90,16 @@ class Field:
                     R = self.__dx / 2 + heatrad
                     if abs(ro_x) <= R and abs(ro_y) <= R:
                         # Touching from upward:
-                        if velocity_y > 0. and ro_y > 0. and abs(ro_y) >= abs(ro_x) and (not neighbours['u']):
+                        if ro_y > 0. and abs(ro_y) >= abs(ro_x) and (not neighbours['u']):
                             touch['u'] = True
                         # Touching from downward:
-                        if velocity_y < 0. and ro_y < 0. and abs(ro_y) >= abs(ro_x) and (not neighbours['d']):
+                        if ro_y < 0. and abs(ro_y) >= abs(ro_x) and (not neighbours['d']):
                             touch['d'] = True
                         # Touching from the left:
-                        if velocity_x > 0. and ro_x > 0. and abs(ro_y) <= abs(ro_x) and (not neighbours['l']):
+                        if ro_x > 0. and abs(ro_y) <= abs(ro_x) and (not neighbours['l']):
                             touch['l'] = True
                         # Touching from the right:
-                        if velocity_x < 0. and ro_x < 0. and abs(ro_y) <= abs(ro_x) and (not neighbours['r']):
+                        if ro_x < 0. and abs(ro_y) <= abs(ro_x) and (not neighbours['r']):
                             touch['r'] = True
         return touch
 
