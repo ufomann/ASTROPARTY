@@ -34,8 +34,9 @@ class Ship:
    11)__wallTouch - to check if ship touches walls (dict{"l", bool}, {"r", bool}, 
                                                         {"u", bool}, {"d", bool})       type: dict 
    12)__extForce - external force vector (for example anti black holes can push you)    type: numpy.array
+   13)__id - identificator of ship; can be 'red' of 'blue'                              type: str
     """
-    def __init__(self, coords, paths, steering, angle):
+    def __init__(self, coords, paths, steering, angle, id):
         self.__paths = paths
         self.__coords = np.array(coords, dtype=float)
         self.__angle = angle
@@ -49,6 +50,7 @@ class Ship:
         self.__dead = False
         self.__nosetaildist = self.__image.get_image().get_height() // 2 * SCALE
         self.__extForce = np.array([0, 0], dtype=float)
+        self.__id = id
 
     def __normSpd(self):
         '''ships can't move faster than MAX_SPD'''
@@ -115,6 +117,9 @@ class Ship:
     
     def set_extForce(self, extForce):
         self.__extForce = extForce
+
+    def get_id(self):
+        return self.__id
 
 def collision(ships):
     for ship in ships:

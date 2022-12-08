@@ -1,7 +1,7 @@
 import pygame 
 
 import constants as cnst
-from menu_objects import *
+import menu_objects as mo
 
 def start_menu():
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
@@ -9,8 +9,8 @@ def start_menu():
     finished = False
 
     bg = pygame.image.load(cnst.MENU_OBJECTSIMG[0])
-    title = Title(cnst.MENU_OBJECTSIMG[4], cnst.WIDTH/24*11, cnst.HEIGHT/2)
-    start = Start_button(cnst.MENU_OBJECTSIMG[1], cnst.MENU_OBJECTSIMG[2], cnst.WIDTH/2, cnst.HEIGHT/4*3)
+    title = mo.Title(cnst.MENU_OBJECTSIMG[4], cnst.WIDTH/24*11, cnst.HEIGHT/2)
+    start = mo.Start_button(cnst.MENU_OBJECTSIMG[1], cnst.MENU_OBJECTSIMG[2], cnst.WIDTH/2, cnst.HEIGHT/4*3)
     static_obj = [start]
     dynamic_obj = [title]
     obj_pos = 0
@@ -29,6 +29,6 @@ def start_menu():
                 finished = True
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                check_button(static_obj, event)
+                mo.check_button(static_obj, event)
         pygame.display.update()
     
