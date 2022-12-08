@@ -46,6 +46,9 @@ def game():
         for i in ships:
             i.move(cnst.SCALE)
         for b in bullets:
+            b.set_extForce(field.get_force(b.get_coord()))
+            b.changespd()
+        for b in bullets:
             b.move(cnst.SCALE)
         for bullet in bullets:
             bullet.collision_with_ship(ships)

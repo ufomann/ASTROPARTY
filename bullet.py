@@ -24,7 +24,7 @@ class Bullet:
         self.__is_dead = False
         self.__extForce = np.array([0,0], dtype=float)
     
-    def change_spd(self):
+    def changespd(self):
         self.__spd += self.__extForce*TIME_PERIOD
 
     def move(self, scale):
