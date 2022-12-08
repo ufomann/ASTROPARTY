@@ -22,6 +22,10 @@ class Bullet:
         self.__spd = spd + ed_vec(angle)*BULLET_SPD
         self.__heatrad = self.__image.get_image().get_width() // 2 * SCALE * 1
         self.__is_dead = False
+        self.__extForce = np.array([0,0], dtype=float)
+    
+    def change_spd(self):
+        self.__spd += self.__extForce*TIME_PERIOD
 
     def move(self, scale):
         """Перемещение пули за TIME_PERIOD
@@ -49,6 +53,9 @@ class Bullet:
     def set_dead(self, bool_var):
         """Изменить статус пули """
         self.__is_dead = bool_var
+    
+    def set_extForce(self, extForce):
+        self.__extForce = extForce
 
     def collision_with_ship(self, ships):
         """Столкновение пули с кораблем """
