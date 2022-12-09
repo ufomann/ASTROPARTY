@@ -1,16 +1,12 @@
-from math import *
-from random import *
-import constants as cnst
-from ship import *
-from bullet import*
-import numpy as np
-import pygame
 from barrier import *
-from constants import *
 from score_count import *
+from bomb import *
+from fields import fields
+from random import choice
+
 
 def game():
-    field_type1 = CURRFIELD
+    current_field = choice(fields)
 
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
     clock = pygame.time.Clock()
@@ -21,10 +17,10 @@ def game():
 
     ships = [redship, blueship]
 
-    field = Field(field_type1, field_size, block_size_x, block_size_y, SCALE, WIDTH, HEIGHT)
+    field = Field(current_field, field_size, block_size_x, block_size_y, SCALE, WIDTH, HEIGHT)
 
     walls = []
-    coords_red, coords_blue = build_walls(field_type1, field_size, walls, paths, block_size_x, block_size_y, SCALE)
+    coords_red, coords_blue = build_walls(current_field, field_size, walls, paths, block_size_x, block_size_y, SCALE)
     redship.set_coord(coords_red)
     blueship.set_coord(coords_blue)
     bullets = []
@@ -54,13 +50,12 @@ def game():
             bullet.collision_with_ship(ships)
             field.bullet_touch(bullet, bullet.get_coord(), bullet.get_spd())
         for ship in ships:
-            if (ship.get_dead()):
+            if ship.get_dead():
                 ships.remove(ship)
         for bullet in bullets:
-            if (bullet.get_dead()):
+            if bullet.get_dead():
                 bullets.remove(bullet)
-        #movements 
-
+        # movements 
         clock.tick(cnst.FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -69,6 +64,8 @@ def game():
                 for ship in ships:
                     if event.key == ship.get_steer().shoot:
                         ship.shoot(bullets, cnst.SCALE)
+                    if event.key == ship.get_steer().coolshoot:
+                        ship.cool_shoot(bullets)
             if len(ships) < 2 and endtime == -1:
                 endtime = pygame.time.get_ticks()
             if endtime != -1 and ((pygame.time.get_ticks() - endtime) > TIME_AFTER_END_OF_THE_ROUND):
