@@ -1,7 +1,7 @@
 import pygame 
 
 import constants as cnst
-from menu_objects import *
+import menu_objects as mn
 
 def win_screen(which_ship):
     """Показать экран выигрыша
@@ -15,17 +15,17 @@ def win_screen(which_ship):
     finished = False
 
     bg = pygame.image.load(cnst.FONEIMG[0])
-    title = Title(cnst.WINIMG[which_ship],cnst.WIDTH/24*11, cnst.HEIGHT/4)
-    button_to_menu = Back_to_menu_button(cnst.MENU_BUTTON_IMG[0], cnst.MENU_BUTTON_IMG[1], 100, 50, 0.5)
+    title = mn.Title(cnst.WINIMG[which_ship],cnst.WIDTH/24*11, cnst.HEIGHT/4)
+    button_to_menu = mn.Back_to_menu_button(cnst.MENU_BUTTON_IMG[0], cnst.MENU_BUTTON_IMG[1], 100, 50, 0.5)
     
     ships_img = []
     if which_ship == 0:
-        ships_img.append(Image(cnst.REDSHIPIMG[0]))
+        ships_img.append(mn.Image(cnst.REDSHIPIMG[0]))
     elif which_ship == 1:
-        ships_img.append(Image(cnst.BLUESHIPIMG[0]))
+        ships_img.append(mn.Image(cnst.BLUESHIPIMG[0]))
     else:
-        ships_img.append(Image(cnst.REDSHIPIMG[0]))
-        ships_img.append(Image(cnst.BLUESHIPIMG[0]))
+        ships_img.append(mn.Image(cnst.REDSHIPIMG[0]))
+        ships_img.append(mn.Image(cnst.BLUESHIPIMG[0]))
     
     angle = 0
 
@@ -47,6 +47,6 @@ def win_screen(which_ship):
             if event.type == pygame.QUIT:
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                check_button([button_to_menu], event)
+                mn.check_button([button_to_menu], event)
         pygame.display.update()
     
