@@ -18,6 +18,7 @@ class Steering:
         self.clockwise = buttons[3]
         self.shoot = buttons[4]
         self.ulta = buttons[5]
+        self.coolshoot = buttons[6]
 
 class Ship:
     """this is ship class, it has the following atributes and methods:
@@ -78,6 +79,19 @@ class Ship:
     def shoot(self, bullets, scale):
         bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist
         bullets.append(Bullet(bulCoords ,self.get_spd(), self.__angle))
+
+    def cool_shoot(self, bullets):
+        number_of_bullets = 5
+        bulCoords = []
+        bulAngle = []
+        bulCoords.append(self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist)
+        bulAngle.append(self.get_angle())
+        for i in range(1, number_of_bullets):
+            angle = self.__angle + 360/number_of_bullets*i
+            bulCoords.append(self.get_coord() + ed_vec(angle) * self.__nosetaildist)
+            bulAngle.append(angle)
+        for k in range(number_of_bullets):
+            bullets.append(Bullet(bulCoords[k], self.get_spd(), bulAngle[k]))
 
     def get_coord(self):
         return self.__coords

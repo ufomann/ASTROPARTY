@@ -70,6 +70,8 @@ def game():
                 for ship in ships:
                     if event.key == ship.get_steer().shoot:
                         ship.shoot(bullets, cnst.SCALE)
+                    if event.key == ship.get_steer().coolshoot:
+                        ship.cool_shoot(bullets)
             if len(ships) < 2 and endtime == -1:
                 endtime = pygame.time.get_ticks()
             if endtime != -1 and ((pygame.time.get_ticks() - endtime) > TIME_AFTER_END_OF_THE_ROUND):
