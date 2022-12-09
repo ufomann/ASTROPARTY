@@ -46,8 +46,8 @@ def score_line(rdscore, blscore):
         time += 1
         scoreline.draw(-90, scorelinecoords, localscale)
         clock.tick(cnst.FPS)
-        redship.move(localscale)
-        blueship.move(localscale)
+        redship.move(localscale, False)
+        blueship.move(localscale, False)
         pygame.display.update()
     pygame.time.delay(1000)
     

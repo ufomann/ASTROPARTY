@@ -15,6 +15,7 @@ class Steering:
         self.clockwise = buttons[3]
         self.shoot = buttons[4]
         self.ulta = buttons[5]
+        self.coolshoot = buttons[6]
 
 class Ammo:
     def __init__(self, paths):
@@ -43,9 +44,6 @@ class Ammo:
             return True
         else:
             return False
-
-        self.coolshoot = buttons[6]
-
 
 class Ship:
     """this is ship class, it has the following atributes and methods:
@@ -99,11 +97,12 @@ class Ship:
         self.__spd += self.__force * TIME_PERIOD
         self.__normSpd()
 
-    def move(self, scale):
+    def move(self, scale, ammo=True):
         self.__coords += self.__spd * TIME_PERIOD
         self.__heatrad = self.__image.get_image().get_width() // 2 * scale * 1
         self.__image.draw(-self.__angle - 90, self.__coords, scale)
-        self.__ammo.moveAmmo(self.__angle, self.__coords)
+        if ammo:
+            self.__ammo.moveAmmo(self.__angle, self.__coords)
 
     def shoot(self, bullets, scale):
         if (self.__ammo.shoot()):
