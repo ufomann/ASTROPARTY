@@ -2,9 +2,6 @@ import numpy as np
 from image import *
 from constants import *
 
-# intrinsic scaling coefficient
-SCALE = SCALE/5 * min(WIDTH, HEIGHT) // (field_size[1] * block_size_x)
-
 clock = pygame.time.Clock()
 finished = False
 
@@ -42,12 +39,13 @@ class Field:
                  scale: int,
                  width: int,
                  height: int):
+        self.scale = scale / 5 * min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
         self.__field = field
         self.__size = field_size
-        self.__dx = block_size_x * scale
-        self.__dy = block_size_y * scale
-        self.__shift_x = (width - min(width, height))/2
-        self.__shift_y = (height - min(width, height))/2
+        self.__dx = block_size_x * self.scale
+        self.__dy = block_size_y * self.scale
+        self.__shift_x = (width - self.__size[0] * self.__dx)/2
+        self.__shift_y = (height - self.__size[1] * self.__dy)/2
 
     def __wall_touch(self, coords: np.ndarray, heatrad: float, velocity: np.ndarray):
         """Checks touching with walls
@@ -70,7 +68,8 @@ class Field:
             for j in range(self.__size[1]):
                 if self.__field[i][j] != 0 and self.__field[i][j] != 9\
                         and self.__field[i][j] != 8 and self.__field[i][j] != 5:
-                    block_coords = np.array([float(j*self.__dx) + self.__dx/2, float(i*self.__dy) + self.__dy/2])
+                    block_coords = np.array([self.__shift_x + float(j*self.__dx) + self.__dx/2,
+                                             self.__shift_y + float(i*self.__dy) + self.__dy/2])
                     neighbours = {'l': False, 'r': False, 'u': False, 'd': False}
                     # filling of dict neighbours:
                     if (j-1) >= 0:
@@ -108,8 +107,8 @@ class Field:
             for j in range(self.__size[1]):
                 if self.__field[i][j] != 0 and self.__field[i][j] != 5 \
                         and self.__field[i][j] != 9 and self.__field[i][j] != 8:
-                    block_coords = np.array([float(j * self.__dx) + self.__dx / 2,
-                                             float(i * self.__dy) + self.__dy / 2])
+                    block_coords = np.array([self.__shift_x + float(j * self.__dx) + self.__dx / 2,
+                                             self.__shift_y + float(i * self.__dy) + self.__dy / 2])
                     ro_x, ro_y = distance(block_coords, coords)
                     if (ro_x**2 + ro_y**2 <= 0.5 * self.__dx ** 2) and (np.dot(np.array([ro_x, ro_y]), velosity) >= 0):
                         if self.__field[i][j] == 4:
@@ -127,7 +126,8 @@ class Field:
         for i in range(self.__size[0]):
             for j in range(self.__size[1]):
                 if self.__field[i][j] == 5:
-                    block_coords = np.array([float(j*self.__dx) + self.__dx/2, float(i*self.__dy) + self.__dy/2])
+                    block_coords = np.array([self.__shift_x + float(j*self.__dx) + self.__dx/2,
+                                             self.__shift_y + float(i*self.__dy) + self.__dy/2])
                     dist = np.dot(block_coords - coords, block_coords - coords)
                     force += -g * (block_coords - coords)/dist**2
         return force
@@ -151,14 +151,15 @@ def build_walls(field: list,
        2 --> green-blue-green wall
        3 --> orange wall
     """
+    scale = scale / 5 * min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
     dx = block_size_x * scale
     dy = block_size_y * scale
-    shift_x = (WIDTH - min(WIDTH, HEIGHT))/2
-    shift_y = (HEIGHT - min(WIDTH, HEIGHT))/2
+    shift_x = (WIDTH - field_size[0] * dx)/2
+    shift_y = (HEIGHT - field_size[1] * dy)/2
     for i in range(field_size[0]):
         for j in range(field_size[1]):
-            #crd = [shift_x + i * dx + dx/2, shift_y + j * dy + dy/2]
-            crd = [j * dx + dx/2, i * dy + dy/2]
+            crd = [shift_x + j * dx + dx/2, shift_y + i * dy + dy/2]
+            #crd = [j * dx + dx/2, i * dy + dy/2]
             if field[i][j] == 1:
                 walls.append(Wall(crd, path['yry']))
             if field[i][j] == 2:
@@ -193,18 +194,6 @@ class Wall:
         self.__image = Image(self.__path)
 
     def draw(self, scale):
+        scale = scale / 5 * min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
         self.__image.draw(self.__angle, self.__coords, scale)
 
-
-field_type1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-               [1, 0, 0, 0, 3, 3, 0, 0, 3, 1],
-               [1, 4, 9, 0, 4, 0, 5, 5, 0, 1],
-               [1, 4, 0, 0, 4, 0, 5, 5, 0, 1],
-               [1, 0, 0, 0, 4, 0, 0, 0, 0, 1],
-               [1, 0, 0, 0, 4, 0, 0, 0, 0, 1],
-               [1, 4, 0, 0, 4, 0, 0, 5, 0, 1],
-               [1, 4, 0, 0, 4, 0, 0, 8, 0, 1],
-               [1, 3, 0, 0, 3, 3, 0, 0, 0, 1],
-               [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
-
-CURRFIELD = field_type1

@@ -9,9 +9,12 @@ from barrier import *
 from constants import *
 from score_count import *
 from bomb import *
+from fields import fields
+from random import choice
+
 
 def game():
-    field_type1 = CURRFIELD
+    current_field = choice(fields)
 
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
     clock = pygame.time.Clock()
@@ -22,10 +25,10 @@ def game():
 
     ships = [redship, blueship]
 
-    field = Field(field_type1, field_size, block_size_x, block_size_y, SCALE, WIDTH, HEIGHT)
+    field = Field(current_field, field_size, block_size_x, block_size_y, SCALE, WIDTH, HEIGHT)
 
     walls = []
-    coords_red, coords_blue = build_walls(field_type1, field_size, walls, paths, block_size_x, block_size_y, SCALE)
+    coords_red, coords_blue = build_walls(current_field, field_size, walls, paths, block_size_x, block_size_y, SCALE)
     redship.set_coord(coords_red)
     blueship.set_coord(coords_blue)
     bullets = []
