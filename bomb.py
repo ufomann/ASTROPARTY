@@ -2,7 +2,8 @@ from image import *
 from constants import *
 from general import *
 
-class Bomb():
+
+class Bomb:
     """Класс бомбы. 
     Бомба взрывается (наносит урон), когда объект подлетает на расстояние,
     не превосходящее heatrad.
@@ -42,17 +43,9 @@ class Bomb():
         return self.__heatrad
         
 
-
-
 def check_bombs(bombs: list, ships: list):
     """Проходится по списку бомб и кораблей и проверяет, есть ли столкновение с obj у бомб """
     for ship in ships:
         for bomb in bombs:
             if collisionCheck(bomb, ship):
                 bomb.activate(ships)
-    
-
-    
-
-    
-

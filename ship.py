@@ -1,14 +1,11 @@
-import numpy as np
-import pygame
-from general import *
-from constants import *
-from image import *
 from bullet import *
+
 
 def center_mass_speed(ship1, ship2):
     """mass of each ship is 1"""
     return (ship1.get_spd() + ship2.get_spd()) / 2
-    
+
+
 class Steering:
     '''TODO'''
     def __init__(self, buttons):
@@ -19,6 +16,7 @@ class Steering:
         self.shoot = buttons[4]
         self.ulta = buttons[5]
         self.coolshoot = buttons[6]
+
 
 class Ship:
     """this is ship class, it has the following atributes and methods:
@@ -55,17 +53,17 @@ class Ship:
 
     def __normSpd(self):
         '''ships can't move faster than MAX_SPD'''
-        if (vec_len(self.__spd) >=  MAX_SPD):
+        if vec_len(self.__spd) >= MAX_SPD:
             self.__spd = self.__spd / vec_len(self.__spd) * MAX_SPD 
 
     def changespd(self):
-        '''this function is for changing ship's velocity according to player's actions'''
+        """this function is for changing ship's velocity according to player's actions"""
         keystatus = pygame.key.get_pressed()
         if keystatus[self.__steer.conterclockwise]:
-            #decrease angle if player spinning conterclockwise
+            # decrease angle if player spinning conterclockwise
             self.__angle -= OMEGA * TIME_PERIOD
         if keystatus[self.__steer.clockwise]:
-            #increase angle if player spinning clockwise
+            # increase angle if player spinning clockwise
             self.__angle += OMEGA * TIME_PERIOD
         self.__force = ed_vec(self.__angle) * FORCE + self.__extForce
         self.__spd += self.__force * TIME_PERIOD
@@ -78,7 +76,7 @@ class Ship:
 
     def shoot(self, bullets, scale):
         bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist
-        bullets.append(Bullet(bulCoords ,self.get_spd(), self.__angle))
+        bullets.append(Bullet(bulCoords, self.get_spd(), self.__angle))
 
     def cool_shoot(self, bullets):
         number_of_bullets = 5
@@ -115,7 +113,7 @@ class Ship:
         self.__wallTouch = wallTouch
 
     def get_injured(self):
-        if (self.__Shield):
+        if self.__Shield:
             self.__Shield = False
         else:
             self.__dead = True
@@ -138,31 +136,33 @@ class Ship:
     def get_id(self):
         return self.__id
 
+
 def collision(ships):
     for ship in ships:
         touch = ship.get_walltouch()
         v = ship.get_spd()
-        if (touch['r']):
+        if touch['r']:
             v[0] = max(v[0], 0)
-        if (touch['d']):
+        if touch['d']:
             v[1] = max(v[1], 0)
-        if (touch['l']):
+        if touch['l']:
             v[0] = min(v[0], 0)
-        if (touch['u']):
+        if touch['u']:
             v[1] = min(v[1], 0)
     '''calculates collisions between every pair of ships'''
     for i in range(len(ships)):
         for j in range(i + 1, len(ships)):
-            if (collisionCheck(ships[i], ships[j])):
-                vcm = center_mass_speed(ships[i], ships[j]) #calculate center mass
-                if (np.dot(ships[i].get_spd() - vcm, radius_vector(ships[i], ships[j])) > 0): #if ships move towards each other
-                    #velocities in frame of reference of center mass
+            if collisionCheck(ships[i], ships[j]):
+                vcm = center_mass_speed(ships[i], ships[j]) # calculate center mass
+                if np.dot(ships[i].get_spd() - vcm, radius_vector(ships[i], ships[j])) > 0:
+                    # if ships move towards each other
+                    # velocities in frame of reference of center mass
                     v1cm = ships[i].get_spd() - vcm
                     v2cm = ships[j].get_spd() - vcm
-                    #getting vectors with len = 1 pointing from ship1 to ship2 and opposite
+                    # getting vectors with len = 1 pointing from ship1 to ship2 and opposite
                     erv1 = radius_vector(ships[i], ships[j])/vec_len(radius_vector(ships[i], ships[j]))
                     erv2 = -erv1
-                    #getting speed components (n and t)
+                    # getting speed components (n and t)
                     v1cmt = np.dot(v1cm, erv1) * erv1
                     v1cmn = v1cm - v1cmt
                     v2cmt = np.dot(v2cm, erv2) * erv2
@@ -172,17 +172,17 @@ def collision(ships):
                     v2 = v2cmn + vcmt + vcm
                     touch1 = ships[i].get_walltouch()
                     touch2 = ships[j].get_walltouch()
-                    #moving through the ship, which touches the wall is prohibited
-                    if (touch1['r'] or touch2['r']):
+                    # moving through the ship, which touches the wall is prohibited
+                    if touch1['r'] or touch2['r']:
                         v1[0] = max(v1[0], 0)
                         v2[0] = max(v2[0], 0)
-                    if (touch1['d'] or touch2['d']):
+                    if touch1['d'] or touch2['d']:
                         v1[1] = max(v1[1], 0)
                         v2[1] = max(v2[1], 0)
-                    if (touch1['l'] or touch2['l']):
+                    if touch1['l'] or touch2['l']:
                         v1[0] = min(v1[0], 0)
                         v2[0] = min(v2[0], 0)
-                    if (touch1['u'] or touch2['u']):
+                    if touch1['u'] or touch2['u']:
                         v1[1] = min(v1[1], 0)
                         v2[1] = min(v2[1], 0)
                     ships[i].set_spd(v1)

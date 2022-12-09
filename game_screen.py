@@ -1,12 +1,4 @@
-from math import *
-from random import *
-import constants as cnst
-from ship import *
-from bullet import*
-import numpy as np
-import pygame
 from barrier import *
-from constants import *
 from score_count import *
 from bomb import *
 from fields import fields
@@ -58,13 +50,12 @@ def game():
             bullet.collision_with_ship(ships)
             field.bullet_touch(bullet, bullet.get_coord(), bullet.get_spd())
         for ship in ships:
-            if (ship.get_dead()):
+            if ship.get_dead():
                 ships.remove(ship)
         for bullet in bullets:
-            if (bullet.get_dead()):
+            if bullet.get_dead():
                 bullets.remove(bullet)
-        #movements 
-        
+        # movements 
         clock.tick(cnst.FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

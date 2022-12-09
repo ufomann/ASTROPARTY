@@ -1,4 +1,3 @@
-import numpy as np
 from image import *
 from constants import *
 
@@ -159,7 +158,6 @@ def build_walls(field: list,
     for i in range(field_size[0]):
         for j in range(field_size[1]):
             crd = [shift_x + j * dx + dx/2, shift_y + i * dy + dy/2]
-            #crd = [j * dx + dx/2, i * dy + dy/2]
             if field[i][j] == 1:
                 walls.append(Wall(crd, path['yry']))
             if field[i][j] == 2:
