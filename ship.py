@@ -19,6 +19,34 @@ class Steering:
         self.shoot = buttons[4]
         self.ulta = buttons[5]
 
+class Ammo:
+    def __init__(self, paths):
+        self.__angle = 0
+        self.__paths = paths
+        self.__image = Image(self.__paths)
+        self.__ammo = 0
+        self.__lastshot = -1
+
+    def moveAmmo(self, shipAng, coords):
+        self.__angle += OMEGAFORAMMO * TIME_PERIOD
+        self.__angle %= 360
+        for i in range(self.__ammo):
+            self.__image.draw(self.__angle + i * 120, coords, SCALE)
+        if self.__ammo == 3:
+            self.__lastshot = -1
+        else:
+            if pygame.time.get_ticks() - self.__lastshot >= RELOADTIME:
+                self.__lastshot = pygame.time.get_ticks()
+                self.__ammo += 1
+    
+    def shoot(self):
+        if (self.__ammo > 0):
+            self.__lastshot = pygame.time.get_ticks()
+            self.__ammo -= 1
+            return True
+        else:
+            return False
+
 class Ship:
     """this is ship class, it has the following atributes and methods:
     1)all atributes are protected, so to access them we have setters and getters
@@ -51,6 +79,7 @@ class Ship:
         self.__nosetaildist = self.__image.get_image().get_height() // 2 * SCALE
         self.__extForce = np.array([0, 0], dtype=float)
         self.__id = id
+        self.__ammo = Ammo(AMMOIMG[0])
 
     def __normSpd(self):
         '''ships can't move faster than MAX_SPD'''
@@ -74,10 +103,12 @@ class Ship:
         self.__coords += self.__spd * TIME_PERIOD
         self.__heatrad = self.__image.get_image().get_width() // 2 * scale * 1
         self.__image.draw(-self.__angle - 90, self.__coords, scale)
+        self.__ammo.moveAmmo(self.__angle, self.__coords)
 
     def shoot(self, bullets, scale):
-        bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist
-        bullets.append(Bullet(bulCoords ,self.get_spd(), self.__angle))
+        if (self.__ammo.shoot()):
+            bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist
+            bullets.append(Bullet(bulCoords ,self.get_spd(), self.__angle))
 
     def get_coord(self):
         return self.__coords
