@@ -8,6 +8,7 @@ import pygame
 from barrier import *
 from constants import *
 from score_count import *
+from bomb import *
 
 def game():
     field_type1 = CURRFIELD
@@ -60,7 +61,7 @@ def game():
             if (bullet.get_dead()):
                 bullets.remove(bullet)
         #movements 
-
+        
         clock.tick(cnst.FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

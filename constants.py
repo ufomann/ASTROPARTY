@@ -59,3 +59,6 @@ TIMEFORMOVE = 1
 WINIMG = ["graphics/red_win.png", "graphics/blue_win.png", "graphics/draw.png"]
 MENU_BUTTON_IMG = ["graphics/menu_button.png", "graphics/pr_menu_button.png"]
 FONEIMG = ["graphics/win_fone.png"]
+
+#bomb constants
+BOMBIMG = ["graphics/bomb.png"]

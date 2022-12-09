@@ -109,6 +109,9 @@ class Ship:
     def get_dead(self):
         return self.__dead
     
+    def set_dead(self, isDead):
+        self.__dead = isDead
+    
     def get_steer(self):
         return self.__steer
 
