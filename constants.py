@@ -36,9 +36,12 @@ BULLETIMG = ["graphics/bullet.png"]
 
 # barrier constants
 g = 1000000000.
-field_size = [10, 10]
+field_size = [30, 30]
 block_size_x = 20
 block_size_y = 20
+ 
+ # rescaling:
+SCALE = SCALE / 5 * min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
 
 # menu constants
 MENU_OBJECTSIMG = [
