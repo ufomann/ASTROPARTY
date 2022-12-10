@@ -54,4 +54,5 @@ field_type4 = [[2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
                [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
 
 
-fields = [field_type1, field_type2, field_type3, field_type4]
+fields = [field_type2]
+# field_type1, field_type2, field_type3, field_type4
