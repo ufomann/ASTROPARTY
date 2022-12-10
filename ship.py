@@ -99,7 +99,7 @@ class Ship:
 
     def move(self, scale, ammo=True):
         self.__coords += self.__spd * TIME_PERIOD
-        self.__heatrad = self.__image.get_image().get_width() // 2 * scale * 1
+        self.__heatrad = self.__image.get_image().get_width() / 2 * scale
         self.__image.draw(-self.__angle - 90, self.__coords, scale)
         if ammo:
             self.__ammo.moveAmmo(self.__angle, self.__coords)

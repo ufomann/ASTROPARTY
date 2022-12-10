@@ -16,7 +16,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
     4 - if it's end screen'''
 BLACK = 0x000000
 WHITE = 0xffffff
-TIME_AFTER_END_OF_THE_ROUND = 1000
+TIME_AFTER_END_OF_THE_ROUND = 500
 
 # constants for ship
 REDSHIPIMG = ["graphics/redship1.png", "graphics/redship2.png", "graphics/redship3.png"]
@@ -51,7 +51,7 @@ MENU_OBJECTSIMG = [
 
 # score screen constants
 SCORETOWIN = 2
-SCORE = dict(blueship = 0, redship = 0)
+SCORE = dict(blueship=0, redship=0)
 SCORELINEIMG = ['graphics/score_count_line.png']
 BLUECOORDSONSCORELINE = np.array([0, 0])
 REDCOORDSONSCORELINE = np.array([HEIGHT, 0])

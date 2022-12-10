@@ -6,7 +6,7 @@ from random import choice
 
 
 def game():
-    current_field = choice(fields)
+    current_field = choice(fields).copy()
 
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
     clock = pygame.time.Clock()
@@ -55,7 +55,7 @@ def game():
         for bullet in bullets:
             if bullet.get_dead():
                 bullets.remove(bullet)
-        # movements 
+        # movements
         clock.tick(cnst.FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
