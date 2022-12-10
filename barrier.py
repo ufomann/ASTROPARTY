@@ -38,7 +38,7 @@ class Field:
                  scale: int,
                  width: int,
                  height: int):
-        self.scale = scale / 5 * min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
+        self.scale = scale
         self.__field = field
         self.__size = field_size
         self.__dx = block_size_x * self.scale
@@ -150,7 +150,6 @@ def build_walls(field: list,
        2 --> green-blue-green wall
        3 --> orange wall
     """
-    scale = scale / 5 * min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
     dx = block_size_x * scale
     dy = block_size_y * scale
     shift_x = (WIDTH - field_size[0] * dx)/2
@@ -192,6 +191,5 @@ class Wall:
         self.__image = Image(self.__path)
 
     def draw(self, scale):
-        scale = scale / 5 * min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
         self.__image.draw(self.__angle, self.__coords, scale)
 
