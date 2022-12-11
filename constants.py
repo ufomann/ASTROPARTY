@@ -68,3 +68,6 @@ FONEIMG = ["graphics/win_fone.png"]
 
 # bomb constants
 BOMBIMG = ["graphics/bomb.png"]
+
+# animation constants
+PPS = 3

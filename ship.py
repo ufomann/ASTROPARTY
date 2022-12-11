@@ -1,4 +1,5 @@
 from bullet import *
+from anim_image import *
 
 
 def center_mass_speed(ship1, ship2):
@@ -69,7 +70,7 @@ class Ship:
         self.__force = ed_vec(0) * 0
         self.__steer = Steering(steering)
         self.__spd = np.array([0, 0], dtype=float)
-        self.__image = Image(self.__paths[0])
+        self.__image = Anim_image(self.__paths, PPS)
         self.__heatrad = 0
         self.__wallTouch = dict(l=False, r=False, u=False, d=False)
         self.__Shield = True
@@ -103,6 +104,7 @@ class Ship:
         self.__image.draw(-self.__angle - 90, self.__coords, scale)
         if ammo:
             self.__ammo.moveAmmo(self.__angle, self.__coords)
+        
 
     def shoot(self, bullets, scale):
         if (self.__ammo.shoot()):
