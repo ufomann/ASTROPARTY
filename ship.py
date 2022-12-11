@@ -109,7 +109,7 @@ class Ship:
     def shoot(self, bullets, scale):
         if (self.__ammo.shoot()):
             bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist
-            bullets.append(Bullet(bulCoords, self.get_spd(), self.__angle))
+            bullets.append(Bullet(bulCoords, self.get_spd(), self.__angle, self.__nosetaildist))
 
     def cool_shoot(self, bullets):
         number_of_bullets = 5
@@ -122,7 +122,7 @@ class Ship:
             bulCoords.append(self.get_coord() + ed_vec(angle) * self.__nosetaildist)
             bulAngle.append(angle)
         for k in range(number_of_bullets):
-            bullets.append(Bullet(bulCoords[k], self.get_spd(), bulAngle[k]))
+            bullets.append(Bullet(bulCoords[k], self.get_spd(), bulAngle[k], self.__nosetaildist))
 
     def get_coord(self):
         return self.__coords
