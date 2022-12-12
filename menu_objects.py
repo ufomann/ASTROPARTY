@@ -81,7 +81,7 @@ class Start_button(Button):
 
     def change_screen(self):
         """Поменять экран на game()"""
-        SCORE['redship'] = SCORE['blueship'] = 0
+        cnst.SCORE['redship'] = cnst.SCORE['blueship'] = 0
         gs.game()
     
     def property(self):

@@ -1,5 +1,7 @@
-from image import *
-from constants import *
+from image import Image
+import constants as cnst
+import pygame
+import numpy as np
 
 clock = pygame.time.Clock()
 finished = False
@@ -41,8 +43,8 @@ class Field:
         self.scale = scale
         self.__field = field
         self.__size = field_size
-        self.__dx = block_size_x * self.scale
-        self.__dy = block_size_y * self.scale
+        self.__dx = block_size_x
+        self.__dy = block_size_y 
         self.__shift_x = (width - self.__size[0] * self.__dx)/2
         self.__shift_y = (height - self.__size[1] * self.__dy)/2
 
@@ -150,10 +152,10 @@ def build_walls(field: list,
        2 --> green-blue-green wall
        3 --> orange wall
     """
-    dx = block_size_x * scale
-    dy = block_size_y * scale
-    shift_x = (WIDTH - field_size[0] * dx)/2
-    shift_y = (HEIGHT - field_size[1] * dy)/2
+    dx = block_size_x
+    dy = block_size_y 
+    shift_x = (cnst.WIDTH - field_size[0] * dx)/2
+    shift_y = (cnst.HEIGHT - field_size[1] * dy)/2
     for i in range(field_size[0]):
         for j in range(field_size[1]):
             crd = [shift_x + j * dx + dx/2, shift_y + i * dy + dy/2]

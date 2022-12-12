@@ -1,5 +1,6 @@
 import pygame
-from constants import *
+import constants as cnst
+import numpy as np
 
 class Anim_image:
     def __init__(self, paths, pps):
@@ -19,11 +20,12 @@ class Anim_image:
         
 
     def draw(self, angle, coords, scale):
+        crd = cnst.CAMERA.transform(coords)
         if pygame.time.get_ticks() - self.__last_change >= 1/self.__pps * 1000:
             self.change_main_img()
         temp = pygame.transform.scale(self.__list_img[self.__currPic], self.__SIZE * scale)
         temp = pygame.transform.rotate(temp, angle)
-        screen.blit(temp, (coords[0] -temp.get_width() // 2, coords[1] -temp.get_height() // 2))
+        cnst.screen.blit(temp, (crd[0] -temp.get_width() // 2, crd[1] -temp.get_height() // 2))
 
     def get_image(self):
         return self.__list_img[self.__currPic]

@@ -3,9 +3,10 @@ from score_count import *
 from bomb import *
 from fields import fields
 from random import choice
-
+import constants as cnst
 
 def game():
+    cnst.CAMERA = Cam(cnst.MINSCALE)
     current_field = choice(fields)
 
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
@@ -27,11 +28,13 @@ def game():
     endtime = -1
     
     while not finished:
+        cnst.CAMERA.calc(redship.get_coord(), blueship.get_coord())
+        print(cnst.CAMERA.transform(redship.get_coord() + CAMERA.transform(blueship.get_coord())))
         # drawing walls
         walls = []
         build_walls(field.get_new_field(), field_size, walls, paths, block_size_x, block_size_y, SCALE)
         for wall in walls:
-            wall.draw(SCALE)
+            wall.draw(cnst.SCALE)
         # movements
         for ship in ships:
             ship.set_extForce(field.get_force(ship.get_coord()))
@@ -63,12 +66,12 @@ def game():
             if event.type == pygame.KEYDOWN:
                 for ship in ships:
                     if event.key == ship.get_steer().shoot:
-                        ship.shoot(bullets, cnst.SCALE)
+                        ship.shoot(bullets)
                     if event.key == ship.get_steer().coolshoot:
                         ship.cool_shoot(bullets)
             if len(ships) < 2 and endtime == -1:
                 endtime = pygame.time.get_ticks()
-            if endtime != -1 and ((pygame.time.get_ticks() - endtime) > TIME_AFTER_END_OF_THE_ROUND):
+            if endtime != -1 and ((pygame.time.get_ticks() - endtime) > cnst.TIME_AFTER_END_OF_THE_ROUND):
                 if len(ships) == 0:
                     score_line(0, 0)
                 elif ships[0].get_id() == 'red':

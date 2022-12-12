@@ -1,10 +1,10 @@
 import pygame 
 import numpy as np
+from active_camera import *
 
 # general constants
 FPS = 60
 TIME_PERIOD = 1 / FPS
-SCALE = 5
 WIDTH = 1200
 HEIGHT = 650
 pygame.init()
@@ -39,9 +39,6 @@ g = 1000000000.
 field_size = [30, 30]
 block_size_x = 20
 block_size_y = 20
- 
- # rescaling:
-SCALE = SCALE / 5 * min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
 
 # menu constants
 MENU_OBJECTSIMG = [
@@ -71,3 +68,11 @@ BOMBIMG = ["graphics/bomb.png"]
 
 # animation constants
 PPS = 3
+
+#active camera constants
+CAMERA = Cam(1)
+SCALE = min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
+MAXSCALE = 4
+MINSCALE = min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
+BORDER = WIDTH / 8
+SCALE_SPD = 0.1

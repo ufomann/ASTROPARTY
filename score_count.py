@@ -5,8 +5,10 @@ from menu_objects import *
 from ship import *
 from win_screen import *
 import game_screen as gm
+import active_camera as cam
 
 def score_line(rdscore, blscore): 
+    cnst.CAMERA = cam.Cam(1)
     print(rdscore, blscore)
     '''rdscore - red ship's score after round (can be from -1 to 1)
        bluescore - blue ship's score after round (can be from -1 to 1)'''

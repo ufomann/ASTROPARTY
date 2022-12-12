@@ -1,6 +1,6 @@
 from bullet import *
 from anim_image import *
-
+import constants as cnst
 
 def center_mass_speed(ship1, ship2):
     """mass of each ship is 1"""
@@ -26,15 +26,15 @@ class Ammo:
         self.__ammo = 0
         self.__lastshot = -1
 
-    def moveAmmo(self, shipAng, coords):
-        self.__angle += OMEGAFORAMMO * TIME_PERIOD
+    def moveAmmo(self, coords):
+        self.__angle += cnst.OMEGAFORAMMO * cnst.TIME_PERIOD
         self.__angle %= 360
         for i in range(self.__ammo):
-            self.__image.draw(self.__angle + i * 120, coords, SCALE)
+            self.__image.draw(self.__angle + i * 120, coords, cnst.SCALE)
         if self.__ammo == 3:
             self.__lastshot = -1
         else:
-            if pygame.time.get_ticks() - self.__lastshot >= RELOADTIME:
+            if pygame.time.get_ticks() - self.__lastshot >= cnst.RELOADTIME:
                 self.__lastshot = pygame.time.get_ticks()
                 self.__ammo += 1
     
@@ -75,40 +75,40 @@ class Ship:
         self.__wallTouch = dict(l=False, r=False, u=False, d=False)
         self.__Shield = True
         self.__dead = False
-        self.__nosetaildist = self.__image.get_image().get_height() // 2 * SCALE
+        self.__nosetaildist = self.__image.get_image().get_height() // 2 
         self.__extForce = np.array([0, 0], dtype=float)
         self.__id = id
-        self.__ammo = Ammo(AMMOIMG[0])
+        self.__ammo = Ammo(cnst.AMMOIMG[0])
 
     def __normSpd(self):
         '''ships can't move faster than MAX_SPD'''
-        if vec_len(self.__spd) >= MAX_SPD:
-            self.__spd = self.__spd / vec_len(self.__spd) * MAX_SPD 
+        if vec_len(self.__spd) >= cnst.MAX_SPD:
+            self.__spd = self.__spd / vec_len(self.__spd) * cnst.MAX_SPD 
 
     def changespd(self):
         """this function is for changing ship's velocity according to player's actions"""
         keystatus = pygame.key.get_pressed()
         if keystatus[self.__steer.conterclockwise]:
             # decrease angle if player spinning conterclockwise
-            self.__angle -= OMEGA * TIME_PERIOD
+            self.__angle -= cnst.OMEGA * cnst.TIME_PERIOD
         if keystatus[self.__steer.clockwise]:
             # increase angle if player spinning clockwise
-            self.__angle += OMEGA * TIME_PERIOD
-        self.__force = ed_vec(self.__angle) * FORCE + self.__extForce
-        self.__spd += self.__force * TIME_PERIOD
+            self.__angle += cnst.OMEGA * cnst.TIME_PERIOD
+        self.__force = ed_vec(self.__angle) * cnst.FORCE + self.__extForce
+        self.__spd += self.__force * cnst.TIME_PERIOD
         self.__normSpd()
 
     def move(self, scale, ammo=True):
-        self.__coords += self.__spd * TIME_PERIOD
-        self.__heatrad = self.__image.get_image().get_width() // 2 * scale * 1
+        self.__coords += self.__spd * cnst.TIME_PERIOD
+        self.__heatrad = self.__image.get_image().get_width() // 2
         self.__image.draw(-self.__angle - 90, self.__coords, scale)
         if ammo:
-            self.__ammo.moveAmmo(self.__angle, self.__coords)
+            self.__ammo.moveAmmo(self.__coords)
         
 
-    def shoot(self, bullets, scale):
+    def shoot(self, bullets):
         if (self.__ammo.shoot()):
-            bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist
+            bulCoords = self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist / 2
             bullets.append(Bullet(bulCoords, self.get_spd(), self.__angle, self.__nosetaildist))
 
     def cool_shoot(self, bullets):

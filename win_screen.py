@@ -2,8 +2,10 @@ import pygame
 
 import constants as cnst
 import menu_objects as mn
+import active_camera as cam
 
 def win_screen(which_ship):
+    cnst.CAMERA = cam.Cam(1)
     """Показать экран выигрыша
     which_ship - индекс корабля, который побеждает:
     0 - red

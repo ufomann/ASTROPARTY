@@ -1,5 +1,5 @@
 import numpy as np
-from constants import *
+import constants as cnst
 import pygame
 
 class Image:
@@ -9,9 +9,10 @@ class Image:
         self.__SIZE = np.array([self.__image.get_width(), self.__image.get_height()])
 
     def draw(self, angle, coords, scale):
+        crd = cnst.CAMERA.transform(coords)
         temp = pygame.transform.scale(self.__image, self.__SIZE * scale)
         temp = pygame.transform.rotate(temp, angle)
-        screen.blit(temp, (coords[0] -temp.get_width() // 2, coords[1] -temp.get_height() // 2))
+        cnst.screen.blit(temp, (crd[0] - temp.get_width() // 2, crd[1] - temp.get_height() // 2))
     
     def get_image(self):
         return self.__image
