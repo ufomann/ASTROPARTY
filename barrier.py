@@ -130,7 +130,7 @@ class Field:
                     block_coords = np.array([self.__shift_x + float(j*self.__dx) + self.__dx/2,
                                              self.__shift_y + float(i*self.__dy) + self.__dy/2])
                     dist = np.dot(block_coords - coords, block_coords - coords)
-                    force += -g * (block_coords - coords)/dist**2
+                    force += -cnst.g * (block_coords - coords)/dist**2
         return force
 
 
