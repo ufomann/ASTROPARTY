@@ -44,7 +44,7 @@ class Bomb:
         
 
 def check_bombs(bombs: list, ships: list):
-    """Проходится по списку бомб и кораблей и проверяет, есть ли столкновение с obj у бомб """
+    """Проходится по списку бомб и кораблей и проверяет, есть ли столкновение c obj y бомб """
     for ship in ships:
         for bomb in bombs:
             if collisionCheck(bomb, ship):
