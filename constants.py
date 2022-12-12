@@ -36,7 +36,7 @@ BULLETIMG = ["graphics/bullet.png"]
 
 # barrier constants
 g = 1000000000.
-field_size = [30, 30]
+field_size = [20, 20]
 block_size_x = 20
 block_size_y = 20
 

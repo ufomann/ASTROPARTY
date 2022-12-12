@@ -29,7 +29,6 @@ def game():
     
     while not finished:
         cnst.CAMERA.calc(redship.get_coord(), blueship.get_coord())
-        print(cnst.CAMERA.transform(redship.get_coord() + CAMERA.transform(blueship.get_coord())))
         # drawing walls
         walls = []
         build_walls(field.get_new_field(), field_size, walls, paths, block_size_x, block_size_y, SCALE)
