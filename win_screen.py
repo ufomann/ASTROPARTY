@@ -42,7 +42,7 @@ def win_screen(which_ship):
         title.draw(scale=2)
         button_to_menu.draw()
 
-        angle += 10
+        angle += 5
 
         clock.tick(cnst.FPS)
         for event in pygame.event.get():

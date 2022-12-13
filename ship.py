@@ -122,7 +122,7 @@ class Ship:
             bullets.append(Bullet(bulCoords, self.get_spd(), self.__angle, self.__nosetaildist))
 
     def cool_shoot(self, bullets):
-        number_of_bullets = 5
+        number_of_bullets = 25
         bulCoords = []
         bulAngle = []
         bulCoords.append(self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist / 2)

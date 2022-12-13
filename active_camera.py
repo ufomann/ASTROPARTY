@@ -11,7 +11,7 @@ class Cam:
         shp1 = cnst.CAMERA.transform(shp1) * 1
         shp2 = cnst.CAMERA.transform(shp2) * 1
         curr = min(shp1[0], shp2[0], shp1[1], shp2[1])
-        cnst.SCALE -= (cnst.BORDER - curr) * cnst.SCALE_SPD * cnst.TIME_PERIOD
+        cnst.SCALE -= (cnst.BORDER - curr) ** 3 * cnst.SCALE_SPD * cnst.TIME_PERIOD
         cnst.SCALE = max(cnst.SCALE, cnst.MINSCALE)
         cnst.SCALE = min(cnst.SCALE, cnst.MAXSCALE)
         

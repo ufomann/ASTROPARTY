@@ -1,8 +1,6 @@
 import numpy as np
 from math import *
-
 import pygame
-
 from image import *
 import game_screen as gs
 from start_screen import *

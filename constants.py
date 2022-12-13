@@ -24,7 +24,7 @@ BLUESHIPIMG = ["graphics/blueship1.png", "graphics/blueship2.png", "graphics/blu
 AMMOIMG = ["graphics/ammos.png"]
 REDSHIPSTR = [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_n, pygame.K_m, pygame.K_b]
 BLUESHIPSTR = [pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d, pygame.K_t, pygame.K_g, pygame.K_r]
-MAX_SPD = 200
+MAX_SPD = 100
 FORCE = 500
 OMEGA = 200
 RELOADTIME = 1000
@@ -33,14 +33,14 @@ SHIELDIMG = ["graphics/shield.png", "graphics/void.png"]
 INVINCIBLE = 2000
 
 # bullet constants
-BULLET_SPD = 500
+BULLET_SPD = 200
 BULLETIMG = ["graphics/bullet.png"]
 
 # barrier constants
-g = 1000000000.
+g = 100000000.
 field_size = [20, 20]
-block_size_x = 20
-block_size_y = 20
+block_size_x = 20.
+block_size_y = 20.
 
 # menu constants
 MENU_OBJECTSIMG = [
@@ -74,7 +74,7 @@ PPS = 3
 #active camera constants
 CAMERA = Cam(1)
 SCALE = min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
-MAXSCALE = 4
+MAXSCALE = 5
 MINSCALE = min(WIDTH, HEIGHT) / (field_size[1] * block_size_x)
-BORDER = WIDTH / 8
-SCALE_SPD = 0.1
+BORDER = WIDTH / 6
+SCALE_SPD = 0.00001

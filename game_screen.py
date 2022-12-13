@@ -18,20 +18,21 @@ def game():
 
     ships = [redship, blueship]
 
-    field = Field(current_field, field_size, block_size_x, block_size_y, SCALE, WIDTH, HEIGHT)
+    field = Field(current_field, field_size, block_size_x, block_size_y, cnst.SCALE, cnst.WIDTH, cnst.HEIGHT)
 
     walls = []
-    coords_red, coords_blue = build_walls(current_field, field_size, walls, paths, block_size_x, block_size_y, SCALE)
+    coords_red, coords_blue = build_walls(current_field, field_size, walls, paths, block_size_x, block_size_y, cnst.SCALE)
     redship.set_coord(coords_red)
     blueship.set_coord(coords_blue)
     bullets = []
     endtime = -1
     
+    pygame.event.clear()
     while not finished:
         cnst.CAMERA.calc(redship.get_coord(), blueship.get_coord())
         # drawing walls
         walls = []
-        build_walls(field.get_new_field(), field_size, walls, paths, block_size_x, block_size_y, SCALE)
+        build_walls(field.get_new_field(), field_size, walls, paths, block_size_x, block_size_y, cnst.SCALE)
         for wall in walls:
             wall.draw(cnst.SCALE)
         # movements
@@ -68,14 +69,15 @@ def game():
                         ship.shoot(bullets)
                     if event.key == ship.get_steer().coolshoot:
                         ship.cool_shoot(bullets)
-            if len(ships) < 2 and endtime == -1:
-                endtime = pygame.time.get_ticks()
-            if endtime != -1 and ((pygame.time.get_ticks() - endtime) > cnst.TIME_AFTER_END_OF_THE_ROUND):
-                if len(ships) == 0:
-                    score_line(0, 0)
-                elif ships[0].get_id() == 'red':
-                    score_line(1, 0)
-                else:
-                    score_line(0, 1)
+
+        if len(ships) < 2 and endtime == -1:
+            endtime = pygame.time.get_ticks()
+        if endtime != -1 and ((pygame.time.get_ticks() - endtime) > cnst.TIME_AFTER_END_OF_THE_ROUND):
+            if len(ships) == 0:
+                score_line(0, 0)
+            elif ships[0].get_id() == 'red':
+                score_line(1, 0)
+            else:
+                score_line(0, 1)
         pygame.display.update()
         cnst.screen.fill(cnst.BLACK)
