@@ -35,10 +35,10 @@ def win_screen(which_ship):
         cnst.screen.blit(bg,(0,0))
 
         if len(ships_img) == 1:
-            ships_img[0].draw(angle, [cnst.WIDTH/24*11, cnst.HEIGHT/2], cnst.SCALE)
+            ships_img[0].draw(angle, [cnst.WIDTH/24*11, cnst.HEIGHT/2], 5)
         else:
-            ships_img[0].draw(angle, [cnst.WIDTH/24*9, cnst.HEIGHT/2], cnst.SCALE)
-            ships_img[1].draw(angle, [cnst.WIDTH/24*13, cnst.HEIGHT/2], cnst.SCALE)
+            ships_img[0].draw(angle, [cnst.WIDTH/24*9, cnst.HEIGHT/2], 5)
+            ships_img[1].draw(angle, [cnst.WIDTH/24*13, cnst.HEIGHT/2], 5)
         title.draw(scale=2)
         button_to_menu.draw()
 
