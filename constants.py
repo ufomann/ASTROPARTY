@@ -29,6 +29,8 @@ FORCE = 500
 OMEGA = 200
 RELOADTIME = 1000
 OMEGAFORAMMO = 120
+SHIELDIMG = ["graphics/shield.png", "graphics/void.png"]
+INVINCIBLE = 2000
 
 # bullet constants
 BULLET_SPD = 500

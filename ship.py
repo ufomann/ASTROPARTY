@@ -70,15 +70,18 @@ class Ship:
         self.__force = ed_vec(0) * 0
         self.__steer = Steering(steering)
         self.__spd = np.array([0, 0], dtype=float)
-        self.__image = Anim_image(self.__paths, PPS)
+        self.__image = Anim_image(self.__paths, cnst.PPS)
         self.__heatrad = 0
         self.__wallTouch = dict(l=False, r=False, u=False, d=False)
-        self.__Shield = True
+        self.__shield = True
         self.__dead = False
         self.__nosetaildist = self.__image.get_image().get_height() // 2 
         self.__extForce = np.array([0, 0], dtype=float)
         self.__id = id
         self.__ammo = Ammo(cnst.AMMOIMG[0])
+        self.__shieldImage = Image(cnst.SHIELDIMG[0])
+        self.__blinkingShield = Anim_image(cnst.SHIELDIMG, cnst.PPS)
+        self.__gotDamaged = -1
 
     def __normSpd(self):
         '''ships can't move faster than MAX_SPD'''
@@ -102,6 +105,13 @@ class Ship:
         self.__coords += self.__spd * cnst.TIME_PERIOD
         self.__heatrad = self.__image.get_image().get_width() // 2
         self.__image.draw(-self.__angle - 90, self.__coords, scale)
+
+        if self.__shield:
+            self.__shieldImage.draw(-self.__angle - 90, self.__coords, scale)
+        if self.__gotDamaged != -1:
+            self.__blinkingShield.draw(-self.__angle - 90, self.__coords, scale)
+            if pygame.time.get_ticks() - self.__gotDamaged > cnst.INVINCIBLE:
+                self.__gotDamaged = -1
         if ammo:
             self.__ammo.moveAmmo(self.__coords)
         
@@ -115,14 +125,14 @@ class Ship:
         number_of_bullets = 5
         bulCoords = []
         bulAngle = []
-        bulCoords.append(self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist)
+        bulCoords.append(self.get_coord() + ed_vec(self.__angle) * self.__nosetaildist / 2)
         bulAngle.append(self.get_angle())
         for i in range(1, number_of_bullets):
-            angle = self.__angle + 360/number_of_bullets*i
-            bulCoords.append(self.get_coord() + ed_vec(angle) * self.__nosetaildist)
+            angle = self.__angle + 360 / number_of_bullets*i
+            bulCoords.append(self.get_coord() + ed_vec(angle) * self.__nosetaildist / 2)
             bulAngle.append(angle)
         for k in range(number_of_bullets):
-            bullets.append(Bullet(bulCoords[k], self.get_spd(), bulAngle[k], self.__nosetaildist))
+            bullets.append(Bullet(bulCoords[k], self.get_spd(), bulAngle[k], self.__nosetaildist / 2))
 
     def get_coord(self):
         return self.__coords
@@ -146,10 +156,12 @@ class Ship:
         self.__wallTouch = wallTouch
 
     def get_injured(self):
-        if self.__Shield:
-            self.__Shield = False
-        else:
-            self.__dead = True
+        if self.__gotDamaged == -1:
+            if self.__shield:
+                self.__shield = False
+                self.__gotDamaged = pygame.time.get_ticks()
+            else:
+                self.__dead = True
 
     def get_dead(self):
         return self.__dead
@@ -169,6 +181,8 @@ class Ship:
     def get_id(self):
         return self.__id
 
+    def set_shield(self, shield):
+        self.__shield = shield
 
 def collision(ships):
     for ship in ships:
