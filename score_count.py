@@ -10,7 +10,6 @@ import active_camera as cam
 def score_line(rdscore, blscore): 
     '''this function is for visualising scorebar'''
     cnst.CAMERA = cam.Cam(1)
-    print(rdscore, blscore)
     '''rdscore - red ship's score after round (can be from -1 to 1)
        bluescore - blue ship's score after round (can be from -1 to 1)'''
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
