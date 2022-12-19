@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from constants import field_size
-from fields import fields
 
 
 def is_equal(a, b):
@@ -53,8 +52,6 @@ def make_field(image):
                 if is_equal(image[i][j], color_keys[k]):
                     field[i][j] = blocks[k]
     print(field)
-
-
 
 
 im = input_interface()

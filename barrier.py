@@ -87,8 +87,8 @@ class Field:
                             neighbours['d'] = True
                     # calculating collisions:
                     ro_x, ro_y = distance(block_coords, coords)
-                    R = self.__dx / 2 + heatrad
-                    if abs(ro_x) <= R and abs(ro_y) <= R:
+                    r = self.__dx / 2 + heatrad
+                    if abs(ro_x) <= r and abs(ro_y) <= r:
                         # Touching from upward:
                         if ro_y > 0. and abs(ro_y) >= abs(ro_x) and (not neighbours['u']):
                             touch['u'] = True
@@ -194,4 +194,3 @@ class Wall:
 
     def draw(self, scale):
         self.__image.draw(self.__angle, self.__coords, scale)
-
