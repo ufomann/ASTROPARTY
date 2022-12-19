@@ -2,8 +2,10 @@ import pygame
 
 import constants as cnst
 import menu_objects as mo
+import active_camera as cam
 
 def start_menu():
+    cnst.CAMERA = cam.Cam(1)
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
     clock = pygame.time.Clock()
     finished = False

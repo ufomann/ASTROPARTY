@@ -1,8 +1,6 @@
 import numpy as np
 from math import *
-
 import pygame
-
 from image import *
 import game_screen as gs
 from start_screen import *
@@ -81,7 +79,7 @@ class Start_button(Button):
 
     def change_screen(self):
         """Поменять экран на game()"""
-        SCORE['redship'] = SCORE['blueship'] = 0
+        cnst.SCORE['redship'] = cnst.SCORE['blueship'] = 0
         gs.game()
     
     def property(self):

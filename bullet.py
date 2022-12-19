@@ -19,9 +19,8 @@ class Bullet:
         """
         self.__image = Image(BULLETIMG[0])
         self.__coords = coords
-        rel_spd = 30*nosetaildist
-        self.__spd = spd + ed_vec(angle)*rel_spd
-        self.__heatrad = self.__image.get_image().get_width() // 2 * SCALE * 1
+        self.__spd = spd + ed_vec(angle) * BULLET_SPD
+        self.__heatrad = self.__image.get_image().get_width() // 2
         self.__is_dead = False
         self.__extForce = np.array([0,0], dtype=float)
     

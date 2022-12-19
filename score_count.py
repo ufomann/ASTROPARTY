@@ -5,18 +5,21 @@ from menu_objects import *
 from ship import *
 from win_screen import *
 import game_screen as gm
+import active_camera as cam
 
 def score_line(rdscore, blscore): 
-    print(rdscore, blscore)
+    '''this function is for visualising scorebar'''
+    cnst.CAMERA = cam.Cam(1)
     '''rdscore - red ship's score after round (can be from -1 to 1)
        bluescore - blue ship's score after round (can be from -1 to 1)'''
     cnst.screen = pygame.display.set_mode((cnst.WIDTH, cnst.HEIGHT))
     clock = pygame.time.Clock()
-    finished = False
-
-    bg = pygame.image.load(cnst.MENU_OBJECTSIMG[0])
+        
     blueship = Ship(cnst.BLUECOORDSONSCORELINE, BLUESHIPIMG, BLUESHIPSTR, 0, 'red')
     redship = Ship(cnst.REDCOORDSONSCORELINE, REDSHIPIMG, REDSHIPSTR, 0, 'blue')
+    blueship.set_shield(False)
+    redship.set_shield(False)
+
     scoreline = Image(cnst.SCORELINEIMG[0])
     scorelinecoords = arr(WIDTH / 2, HEIGHT / 2)
     width = scoreline.get_image().get_width()
@@ -59,10 +62,3 @@ def score_line(rdscore, blscore):
         win_screen(0)
     else:
         gm.game()
-'''for testing'''
-'''print(score_line(-1, -1))
-print(score_line(1, -1))
-print(score_line(-1, 1))
-print(score_line(-1, 1))
-print(score_line(-1, 1))
-print(score_line(0, 1))'''

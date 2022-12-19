@@ -2,8 +2,10 @@ import pygame
 
 import constants as cnst
 import menu_objects as mn
+import active_camera as cam
 
 def win_screen(which_ship):
+    cnst.CAMERA = cam.Cam(1)
     """Показать экран выигрыша
     which_ship - индекс корабля, который побеждает:
     0 - red
@@ -33,14 +35,14 @@ def win_screen(which_ship):
         cnst.screen.blit(bg,(0,0))
 
         if len(ships_img) == 1:
-            ships_img[0].draw(angle, [cnst.WIDTH/24*11, cnst.HEIGHT/2], cnst.SCALE)
+            ships_img[0].draw(angle, [cnst.WIDTH/24*11, cnst.HEIGHT/2], 5)
         else:
-            ships_img[0].draw(angle, [cnst.WIDTH/24*9, cnst.HEIGHT/2], cnst.SCALE)
-            ships_img[1].draw(angle, [cnst.WIDTH/24*13, cnst.HEIGHT/2], cnst.SCALE)
+            ships_img[0].draw(angle, [cnst.WIDTH/24*9, cnst.HEIGHT/2], 5)
+            ships_img[1].draw(angle, [cnst.WIDTH/24*13, cnst.HEIGHT/2], 5)
         title.draw(scale=2)
         button_to_menu.draw()
 
-        angle += 10
+        angle += 5
 
         clock.tick(cnst.FPS)
         for event in pygame.event.get():
