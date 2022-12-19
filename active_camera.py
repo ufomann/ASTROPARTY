@@ -2,6 +2,10 @@ import numpy as np
 import constants as cnst
 
 class Cam:
+    '''This is "active" camera class. Active camera follows the ships to provide the user with optimal viewing point
+     It has the following methods:
+     1) calc - finds the best viewing point
+     2) transform - releases transform from game coordinate system to screen coordinate system'''
     def __init__(self, scale):
         self.__crdPoint = np.array([0, 0])
         cnst.SCALE = scale

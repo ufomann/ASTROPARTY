@@ -8,6 +8,7 @@ import game_screen as gm
 import active_camera as cam
 
 def score_line(rdscore, blscore): 
+    '''this function is for visualising scorebar'''
     cnst.CAMERA = cam.Cam(1)
     print(rdscore, blscore)
     '''rdscore - red ship's score after round (can be from -1 to 1)
@@ -62,10 +63,3 @@ def score_line(rdscore, blscore):
         win_screen(0)
     else:
         gm.game()
-'''for testing'''
-'''print(score_line(-1, -1))
-print(score_line(1, -1))
-print(score_line(-1, 1))
-print(score_line(-1, 1))
-print(score_line(-1, 1))
-print(score_line(0, 1))'''
