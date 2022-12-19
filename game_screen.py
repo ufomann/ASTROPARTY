@@ -30,11 +30,13 @@ def game():
     pygame.event.clear()
     while not finished:
         cnst.CAMERA.calc(redship.get_coord(), blueship.get_coord())
+
         # drawing walls
         walls = []
         build_walls(field.get_new_field(), field_size, walls, paths, block_size_x, block_size_y, cnst.SCALE)
         for wall in walls:
             wall.draw(cnst.SCALE)
+
         # movements
         for ship in ships:
             ship.set_extForce(field.get_force(ship.get_coord()))
@@ -59,6 +61,7 @@ def game():
             if bullet.get_dead():
                 bullets.remove(bullet)
         # movements
+        
         clock.tick(cnst.FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
